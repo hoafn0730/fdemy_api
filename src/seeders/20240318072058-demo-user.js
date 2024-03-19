@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        return queryInterface.bulkInsert('Accounts', [
+        return queryInterface.bulkInsert('Users', [
             {
                 username: 'hoafn0730',
                 email: 'hoafn0730@example.com',
@@ -13,7 +13,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
         ]);
-        ssss;
     },
 
     async down(queryInterface, Sequelize) {

@@ -1,13 +1,8 @@
 const express = require('express');
+const userRouter = require('./user');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.json({
-        status: 200,
-        message: 'ok',
-        data: { id: 1, name: 'hoafn0730' },
-    });
-});
+router.use('/users', userRouter);
 
 module.exports = router;

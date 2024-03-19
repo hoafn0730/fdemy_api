@@ -9,13 +9,55 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
+            username: {
+                type: Sequelize.STRING,
+                unique: true,
+            },
+            email: {
+                type: Sequelize.STRING,
+                unique: true,
+            },
+            password: {
+                type: Sequelize.STRING,
+            },
             firstName: {
                 type: Sequelize.STRING,
             },
             lastName: {
                 type: Sequelize.STRING,
             },
-            email: {
+            fullName: {
+                type: Sequelize.STRING,
+            },
+            avatar: {
+                type: Sequelize.STRING,
+            },
+            banner: {
+                type: Sequelize.STRING,
+            },
+            bio: {
+                type: Sequelize.STRING,
+            },
+            facebookUrl: {
+                type: Sequelize.STRING,
+            },
+            youtubeUrl: {
+                type: Sequelize.STRING,
+            },
+            instagramUrl: {
+                type: Sequelize.STRING,
+            },
+            linkedinUrl: {
+                type: Sequelize.STRING,
+            },
+            role: {
+                type: Sequelize.STRING,
+            },
+            type: {
+                type: Sequelize.STRING,
+                defaultValue: 'LOCAL',
+            },
+            code: {
                 type: Sequelize.STRING,
             },
             createdAt: {

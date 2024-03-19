@@ -4,12 +4,20 @@ const morgan = require('morgan');
 const handlebars = require('express-handlebars');
 
 const routes = require('./routes');
-const connect = require('./config/connectDB');
+const sequelize = require('./config/connectDB');
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-connect.connect();
+async function connect() {
+    try {
+        await sequelize.authenticate();
+        console.log('Connection has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
+}
+connect();
 
 app.engine(
     'hbs',
