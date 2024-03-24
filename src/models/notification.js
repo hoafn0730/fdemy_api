@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     }
     Notification.init(
         {
-            title: DataTypes.STRING,
             userId: DataTypes.STRING,
+            title: DataTypes.STRING,
             isRead: DataTypes.BOOLEAN,
         },
         {

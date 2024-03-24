@@ -2,37 +2,50 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('Comments', {
-            id: {
-                allowNull: false,
-                autoIncrement: true,
-                primaryKey: true,
-                type: Sequelize.INTEGER,
-            },
-            commentableId: {
-                type: Sequelize.STRING,
-            },
-            comment: {
-                type: Sequelize.STRING,
-            },
-            deletedAt: {
-                type: Sequelize.DATE,
-            },
-            reactionsCount: {
-                type: Sequelize.INTEGER,
-            },
-            userId: {
-                type: Sequelize.INTEGER,
-            },
-            createdAt: {
-                allowNull: false,
-                type: Sequelize.DATE,
-            },
-            updatedAt: {
-                allowNull: false,
-                type: Sequelize.DATE,
-            },
-        });
+        await queryInterface
+            .createTable('Comments', {
+                id: {
+                    allowNull: false,
+                    autoIncrement: true,
+                    primaryKey: true,
+                    type: Sequelize.INTEGER,
+                },
+                userId: {
+                    type: Sequelize.INTEGER,
+                },
+                commentableId: {
+                    type: Sequelize.STRING,
+                },
+                comment: {
+                    type: Sequelize.STRING,
+                },
+                reactionsCount: {
+                    type: Sequelize.INTEGER,
+                },
+                deletedAt: {
+                    type: Sequelize.DATE,
+                },
+
+                createdAt: {
+                    allowNull: false,
+                    type: Sequelize.DATE,
+                },
+                updatedAt: {
+                    allowNull: false,
+                    type: Sequelize.DATE,
+                },
+            })
+            .then(() => {
+                queryInterface.addConstraint('Comments', {
+                    fields: ['userId'],
+                    type: 'foreign key',
+                    name: 'comment_user_id_fkey',
+                    references: {
+                        table: 'Users',
+                        field: 'id',
+                    },
+                });
+            });
     },
     async down(queryInterface, Sequelize) {
         await queryInterface.dropTable('Comments');

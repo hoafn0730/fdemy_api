@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     }
     Lesson.init(
         {
+            courseId: DataTypes.INTEGER,
+            stepId: DataTypes.INTEGER,
             title: DataTypes.STRING,
             description: DataTypes.STRING,
             content: DataTypes.STRING,
@@ -23,8 +25,6 @@ module.exports = (sequelize, DataTypes) => {
             isPublished: DataTypes.BOOLEAN,
             PublishedAt: DataTypes.DATE,
             position: DataTypes.INTEGER,
-            courseId: DataTypes.INTEGER,
-            stepId: DataTypes.INTEGER,
         },
         {
             sequelize,

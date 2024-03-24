@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     Course.init(
         {
+            categoryId: DataTypes.INTEGER,
             title: DataTypes.STRING,
             description: DataTypes.STRING,
             slug: DataTypes.STRING,

@@ -13,11 +13,11 @@ module.exports = (sequelize, DataTypes) => {
     }
     Comment.init(
         {
+            userId: DataTypes.INTEGER,
             commentableId: DataTypes.STRING,
             comment: DataTypes.STRING,
-            deletedAt: DataTypes.STRING,
             reactionsCount: DataTypes.INTEGER,
-            userId: DataTypes.INTEGER,
+            deletedAt: DataTypes.STRING,
         },
         {
             sequelize,

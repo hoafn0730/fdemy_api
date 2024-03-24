@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     }
     Register.init(
         {
-            courseId: DataTypes.STRING,
-            userId: DataTypes.STRING,
+            courseId: DataTypes.INTEGER,
+            userId: DataTypes.INTEGER,
             registeredAt: DataTypes.STRING,
             process: DataTypes.STRING,
             endOfCourse: DataTypes.STRING,

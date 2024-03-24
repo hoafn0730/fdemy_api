@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     Blog.init(
         {
+            userId: DataTypes.INTEGER,
             title: DataTypes.STRING,
             description: DataTypes.STRING,
             slug: DataTypes.STRING,
@@ -21,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
             isApproved: DataTypes.BOOLEAN,
             publishedAt: DataTypes.STRING,
             isPublished: DataTypes.BOOLEAN,
-            userId: DataTypes.INTEGER,
         },
         {
             sequelize,
