@@ -1,0 +1,214 @@
+<div class='content-wrapper'>
+    <div class='row'>
+        <div class='col-md-12 grid-margin'>
+            <div class='row'>
+                <div class='col-12 col-xl-8 mb-4 mb-xl-0'>
+                    <h3 class='font-weight-bold title'>Quản lý khóa học</h3>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class='row'>
+
+        <div class='col-md-12 grid-margin stretch-card'>
+            <div class='card'>
+                <div class='card-body'>
+                    <div class='card-header'>
+                        <p class='card-title'>Course Table</p>
+
+                        <button
+                            class='btn btn-primary btn-create'
+                            type='button'
+                            data-toggle='modal'
+                            data-target='#exampleModal'
+                        >+</button>
+                    </div>
+                    <div class='row'>
+                        <div class='col-12'>
+                            {{#if message}}
+                                <div class='alert alert-danger' role='alert'>
+                                    {{message}}
+                                </div>
+                            {{/if}}
+                            <div class='table-responsive'>
+                                <table class='display expandable-table' style='width: 100%'>
+                                    <thead>
+                                        <tr>
+                                            <th>Quote#</th>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Full Name</th>
+                                            <th>Role</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each users}}
+                                            <tr>
+                                                <td>
+                                                    <input value='{{this.id}}' type='checkbox' name='id' id='id' />
+                                                    {{this.id}}
+                                                </td>
+                                                <td>{{this.username}}</td>
+                                                <td>{{this.email}}</td>
+                                                <td>{{this.firstName}}</td>
+                                                <td>{{this.lastName}}</td>
+                                                <td>{{this.fullName}}</td>
+                                                <td>{{this.role}}</td>
+                                                <td class='details-control'>
+                                                    <a
+                                                        href='/user/{{this.id}}/edit'
+                                                        id='btn-edit'
+                                                        class='btn btn-primary'
+                                                    >Edit</a>
+                                                    <button
+                                                        id='btn-confirm-delete'
+                                                        data-id='{{this.id}}'
+                                                        class='btn btn-danger'
+                                                        data-toggle='modal'
+                                                        data-target='#delete-modal'
+                                                    >Delete</button>
+                                                </td>
+                                            </tr>
+
+                                        {{/each}}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{! Modal create }}
+<div
+    class='modal fade'
+    id='exampleModal'
+    tabindex='-1'
+    role='dialog'
+    aria-labelledby='exampleModalLabel'
+    aria-hidden='true'
+>
+    <div class='modal-dialog' role='document'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h5 class='modal-title' id='exampleModalLabel'>Create new user</h5>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
+                </button>
+            </div>
+            <div class='modal-body'>
+
+                <form name='form-user' action='/user' method='POST'>
+                    <div class='form-group'>
+                        <label for='username'>Username:</label>
+                        <input
+                            type='text'
+                            name='username'
+                            class='form-control'
+                            id='username'
+                            placeholder='Enter username'
+                        />
+                    </div>
+                    <div class='form-group'>
+                        <label for='email'>Email address:</label>
+                        <input type='email' name='email' class='form-control' id='email' placeholder='Enter email' />
+                    </div>
+                    <div class='form-group'>
+                        <label for='password'>Password:</label>
+                        <input
+                            type='password'
+                            name='password'
+                            class='form-control'
+                            id='password'
+                            placeholder='Enter password'
+                        />
+                    </div>
+                    <div class='form-group'>
+                        <label for='firstName'>First Name:</label>
+                        <input
+                            type='text'
+                            name='firstName'
+                            class='form-control'
+                            id='firstName'
+                            placeholder='Enter first name'
+                        />
+                    </div>
+                    <div class='form-group'>
+                        <label for='lastName'>Last Name:</label>
+                        <input
+                            type='text'
+                            name='lastName'
+                            class='form-control'
+                            id='lastName'
+                            placeholder='Enter last name'
+                        />
+                    </div>
+                    <div class='form-group'>
+                        <label for='fullName'>Full Name:</label>
+                        <input
+                            type='text'
+                            name='fullName'
+                            class='form-control'
+                            id='fullName'
+                            placeholder='Enter full name'
+                        />
+                    </div>
+                    <div class='form-group'>
+                        <label for='role'>Role:</label>
+                        <select name='role' class='form-control' id='role'>
+                            <option selected disabled>-- Chọn vai trò --</option>
+                            <option value='user'>Người dùng</option>
+                            <option value='admin'>Quản trị</option>
+                        </select>
+                    </div>
+
+                </form>
+            </div>
+            <div class='modal-footer'>
+                <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
+                <button id='btn-create' type='button' class='btn btn-primary'>Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{! Modal delete }}
+<div
+    class='modal fade'
+    id='delete-modal'
+    tabindex='-1'
+    role='dialog'
+    aria-labelledby='exampleModalLabel'
+    aria-hidden='true'
+>
+    <div class='modal-dialog' role='document'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h5 class='modal-title' id='exampleModalLabel'>Delete user</h5>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
+                </button>
+            </div>
+            <div class='modal-body'>
+                Bạn có chắc chắn muốn xóa?
+            </div>
+            <div class='modal-footer'>
+                <button id='btn-delete' type='button' class='btn btn-danger'>Ok</button>
+                <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form name='form-delete' action='/user' method='POST'></form>
+
+<script src='/js/user.js'></script>

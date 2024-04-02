@@ -1,5 +1,35 @@
 const userService = require('../services/userService');
 
+// WEB
+const index = async (req, res) => {
+    const users = await userService.find({});
+    res.render('user/show', { users: users.data });
+};
+
+const store = async (req, res) => {
+    const data = await userService.create(req.body);
+    res.redirect('/user');
+};
+
+const edit = async (req, res) => {
+    const id = req.params.id;
+    const { data } = await userService.find({ where: { id } });
+    res.render('user/edit', { user: data });
+};
+
+const update = async (req, res) => {
+    const id = req.params.id;
+    await userService.update({ data: req.body, where: { id } });
+    res.redirect('/user');
+};
+
+const destroy = async (req, res) => {
+    const id = req.params.id;
+    const data = await userService.delete({ where: { id } });
+    res.redirect('back');
+};
+
+// API
 // [GET] /users
 const getUser = async (req, res) => {
     const page = req.query.page;
@@ -64,6 +94,11 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
+    index,
+    store,
+    edit,
+    update,
+    destroy,
     getUser,
     createUser,
     updateUser,

@@ -1,13 +1,21 @@
+@import './components/modal';
+
 :root {
 }
 
 * {
-    box-shadow: border-box;
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
 }
 
 html {
-    font-size: 62.5%;
+    font-size: 61.5%;
+    line-height: 1.6rem;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
 }
+
 body {
     font-size: 1.6rem;
 }
@@ -34,4 +42,29 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     border-radius: 4px;
     background-color: rgba(22, 24, 35, 0.6);
+}
+
+a,
+span,
+i {
+    font-size: 1.6rem;
+}
+
+tr td,
+tr th {
+    padding: 10px;
+    font-size: 1.6rem;
+}
+
+th {
+    text-decoration: underline;
+}
+
+.btn,
+.form-control {
+    font-size: 1.6rem;
+}
+
+select.form-control:not([size]):not([multiple]) {
+    height: auto;
 }

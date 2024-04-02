@@ -7,12 +7,13 @@ const methodsService = (Model) => {
                 let data;
                 if (payload.where) {
                     if (payload.where.id) {
-                        data = await db[Model].findByPk(payload.where.id);
+                        data = await db[Model].findByPk(payload.where.id, { raw: true });
                     } else {
                         data = await db[Model].findOne({
                             where: {
                                 ...payload.where,
                             },
+                            raw: true,
                         });
                     }
                 } else if (payload.page) {
@@ -36,7 +37,7 @@ const methodsService = (Model) => {
                         rows,
                     };
                 } else {
-                    data = await db[Model].findAll();
+                    data = await db[Model].findAll({ raw: true });
                 }
 
                 if (data) {

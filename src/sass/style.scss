@@ -1,5 +1,6 @@
-@import './header';
-@import './sidebar';
+@import './layouts/header';
+@import './layouts/sidebar';
+@import './pages/dashboard';
 
 .app {
     display: flex;
