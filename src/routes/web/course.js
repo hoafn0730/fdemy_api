@@ -1,21 +1,20 @@
 const express = require('express');
 const router = express.Router();
-
 const courseController = require('../../controllers/CourseController');
 
-// [GET] /course
+// [GET] /courses
 router.get('/', courseController.index);
 
-// [POST] /course
+// [POST] /courses
 router.post('/', courseController.store);
 
-// [GET] /course/:id/edit
+// [GET] /courses/:id/edit
 router.get('/:id/edit', courseController.edit);
 
-// [PATCH] /course/:id
+// [PATCH] /courses/:id
 router.patch('/:id', courseController.update);
 
-// [DELETE] /course/:id
+// [DELETE] /courses/:id
 router.delete('/:id', courseController.destroy);
 
 module.exports = router;

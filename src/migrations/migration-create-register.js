@@ -17,7 +17,8 @@ module.exports = {
                     type: Sequelize.INTEGER,
                 },
                 registeredAt: {
-                    type: Sequelize.STRING,
+                    type: Sequelize.DATE,
+                    defaultValue: Sequelize.NOW,
                 },
                 process: {
                     type: Sequelize.STRING,

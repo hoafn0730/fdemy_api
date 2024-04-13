@@ -49,9 +49,6 @@ module.exports = {
                 priority: {
                     type: Sequelize.INTEGER,
                 },
-                endOfCourse: {
-                    type: Sequelize.BOOLEAN,
-                },
                 deletedAt: {
                     type: Sequelize.DATE,
                 },

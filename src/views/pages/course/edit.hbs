@@ -91,11 +91,10 @@
                             <select name='categoryId' class='form-control' id='categoryId'>
                                 <option selected disabled>-- Chọn thể loại --</option>
                                 {{#each categories}}
-                                    {{!-- {{#ifEquals this.id course.categoryId}}
-                                        <option value='{{this.id}}' selected>{{this.title}}</option>
-                                    {{else}}
-                                    {{/ifEquals}} --}}
-                                    <option value='{{this.id}}'>{{this.title}}</option>
+                                    <option
+                                        value='{{this.id}}'
+                                        {{compare this.id course.categoryId 'selected'}}
+                                    >{{this.title}}</option>
                                 {{/each}}
                             </select>
                         </div>

@@ -1,6 +1,6 @@
 const navItems = document.querySelectorAll('.sidebar .nav:not(.sub-menu) > div > .nav-item');
 
-const routes = ['/', '/users', '/categories', '/courses'];
+const routes = ['/', '/users', '/categories', '/courses', '/registers'];
 
 routes.some((route, index) => {
     if (route === location.pathname) {

@@ -27,7 +27,6 @@ module.exports = (sequelize, DataTypes) => {
             studentsCount: DataTypes.INTEGER,
             publishedAt: DataTypes.DATE,
             priority: DataTypes.INTEGER,
-            endOfCourse: DataTypes.BOOLEAN,
             deletedAt: DataTypes.DATE,
         },
         {
