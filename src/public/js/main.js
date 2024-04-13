@@ -1,16 +1,38 @@
-const sidebar = document.querySelector('.sidebar');
-const navItems = sidebar.querySelectorAll('.nav:not(.sub-menu) > div > .nav-item');
+const navItems = document.querySelectorAll('.sidebar .nav:not(.sub-menu) > div > .nav-item');
 
-switch (location.pathname) {
-    case '/':
-        navItems[0].classList.add('active');
-        break;
+const routes = ['/', '/users', '/categories', '/courses'];
 
-    case '/user':
-        navItems[1].classList.add('active');
-        break;
+routes.some((route, index) => {
+    if (route === location.pathname) {
+        navItems[index].classList.add('active');
+        return true;
+    }
+});
 
-    default:
-        navItems.forEach((item) => item.classList.remove('active'));
-        break;
-}
+const handleForm = () => {
+    const form = document.forms['form'];
+    const btnCreate = document.querySelector('#btn-create');
+    const btnEdit = document.querySelector('#btn-edit');
+    const modal = document.querySelector('#exampleModal');
+    const formDelete = document.forms['form-delete'];
+    const btnConfirmDelete = document.querySelectorAll('#btn-confirm-delete');
+    const btnDelete = document.querySelector('#btn-delete');
+
+    btnCreate.onclick = function () {
+        form.submit();
+    };
+
+    btnConfirmDelete.forEach(
+        (item) =>
+            (item.onclick = function (e) {
+                const id = e.target.dataset.id;
+                formDelete.action = `${formDelete.action}/${id}?_method=DELETE`;
+            }),
+    );
+
+    btnDelete.onclick = () => {
+        formDelete.submit();
+    };
+};
+
+handleForm();

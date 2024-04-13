@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            this.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'category' });
         }
     }
     Course.init(
@@ -25,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
             video: DataTypes.STRING,
             studentsCount: DataTypes.INTEGER,
             publishedAt: DataTypes.DATE,
-            progress: DataTypes.INTEGER,
             priority: DataTypes.INTEGER,
             endOfCourse: DataTypes.BOOLEAN,
             deletedAt: DataTypes.DATE,

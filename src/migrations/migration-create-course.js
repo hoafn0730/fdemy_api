@@ -46,9 +46,6 @@ module.exports = {
                 publishedAt: {
                     type: Sequelize.DATE,
                 },
-                progress: {
-                    type: Sequelize.INTEGER,
-                },
                 priority: {
                     type: Sequelize.INTEGER,
                 },

@@ -3,7 +3,7 @@
         <div class='col-md-12 grid-margin'>
             <div class='row'>
                 <div class='col-12 col-xl-8 mb-4 mb-xl-0'>
-                    <h3 class='font-weight-bold title'>Quản lý Người Dùng</h3>
+                    <h3 class='font-weight-bold title'>Category</h3>
                 </div>
 
             </div>
@@ -15,7 +15,7 @@
             <div class='card'>
                 <div class='card-body'>
                     <div class='card-header'>
-                        <p class='card-title'>User Table</p>
+                        <p class='card-title'>Category Table</p>
 
                         <button
                             class='btn btn-primary btn-create'
@@ -26,9 +26,9 @@
                     </div>
                     <div class='row'>
                         <div class='col-12'>
-                            {{#if message}}
+                            {{#if error}}
                                 <div class='alert alert-danger' role='alert'>
-                                    {{message}}
+                                    {{error}}
                                 </div>
                             {{/if}}
                             <div class='table-responsive'>
@@ -36,31 +36,27 @@
                                     <thead>
                                         <tr>
                                             <th>Quote#</th>
-                                            <th>Username</th>
-                                            <th>Email</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Full Name</th>
-                                            <th>Role</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Image</th>
+                                            <th>createdAt</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each users}}
+                                        {{#each categories}}
                                             <tr>
                                                 <td>
                                                     <input value='{{this.id}}' type='checkbox' name='id' id='id' />
-                                                    {{this.id}}
+                                                    {{sum @index 1}}
                                                 </td>
-                                                <td>{{this.username}}</td>
-                                                <td>{{this.email}}</td>
-                                                <td>{{this.firstName}}</td>
-                                                <td>{{this.lastName}}</td>
-                                                <td>{{this.fullName}}</td>
-                                                <td>{{this.role}}</td>
+                                                <td>{{this.title}}</td>
+                                                <td>{{this.description}}</td>
+                                                <td>{{this.image}}</td>
+                                                <td>{{formatDate this.createdAt}}</td>
                                                 <td class='details-control'>
                                                     <a
-                                                        href='/user/{{this.id}}/edit'
+                                                        href='/categories/{{this.id}}/edit'
                                                         id='btn-edit'
                                                         class='btn btn-primary'
                                                     >Edit</a>
@@ -100,75 +96,41 @@
     <div class='modal-dialog' role='document'>
         <div class='modal-content'>
             <div class='modal-header'>
-                <h5 class='modal-title' id='exampleModalLabel'>Create new user</h5>
+                <h5 class='modal-title' id='exampleModalLabel'>Create new category</h5>
                 <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
                     <span aria-hidden='true'>&times;</span>
                 </button>
             </div>
             <div class='modal-body'>
 
-                <form name='form-user' action='/user' method='POST'>
+                <form name='form' action='{{route}}' method='POST'>
                     <div class='form-group'>
-                        <label for='username'>Username:</label>
+                        <label for='title'>Title:</label>
+                        <input type='text' name='title' class='form-control' id='title' placeholder='Enter title' />
+                    </div>
+                    <div class='form-group'>
+                        <label for='description'>Description:</label>
                         <input
                             type='text'
-                            name='username'
+                            name='description'
                             class='form-control'
-                            id='username'
-                            placeholder='Enter username'
+                            id='description'
+                            placeholder='Enter description'
                         />
                     </div>
                     <div class='form-group'>
-                        <label for='email'>Email address:</label>
-                        <input type='email' name='email' class='form-control' id='email' placeholder='Enter email' />
+                        <label for='image'>Image:</label>
+                        <input type='text' name='image' class='form-control' id='image' placeholder='Enter image' />
                     </div>
                     <div class='form-group'>
-                        <label for='password'>Password:</label>
-                        <input
-                            type='password'
-                            name='password'
-                            class='form-control'
-                            id='password'
-                            placeholder='Enter password'
-                        />
-                    </div>
-                    <div class='form-group'>
-                        <label for='firstName'>First Name:</label>
-                        <input
+                        <label for='content'>Content:</label>
+                        <textarea
                             type='text'
-                            name='firstName'
+                            name='content'
                             class='form-control'
-                            id='firstName'
-                            placeholder='Enter first name'
-                        />
-                    </div>
-                    <div class='form-group'>
-                        <label for='lastName'>Last Name:</label>
-                        <input
-                            type='text'
-                            name='lastName'
-                            class='form-control'
-                            id='lastName'
-                            placeholder='Enter last name'
-                        />
-                    </div>
-                    <div class='form-group'>
-                        <label for='fullName'>Full Name:</label>
-                        <input
-                            type='text'
-                            name='fullName'
-                            class='form-control'
-                            id='fullName'
-                            placeholder='Enter full name'
-                        />
-                    </div>
-                    <div class='form-group'>
-                        <label for='role'>Role:</label>
-                        <select name='role' class='form-control' id='role'>
-                            <option selected disabled>-- Chọn vai trò --</option>
-                            <option value='user'>Người dùng</option>
-                            <option value='admin'>Quản trị</option>
-                        </select>
+                            id='content'
+                            placeholder='Enter content'
+                        ></textarea>
                     </div>
 
                 </form>
@@ -193,7 +155,7 @@
     <div class='modal-dialog' role='document'>
         <div class='modal-content'>
             <div class='modal-header'>
-                <h5 class='modal-title' id='exampleModalLabel'>Delete user</h5>
+                <h5 class='modal-title' id='exampleModalLabel'>Delete categories</h5>
                 <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
                     <span aria-hidden='true'>&times;</span>
                 </button>
@@ -209,6 +171,9 @@
     </div>
 </div>
 
-<form name='form-delete' action='/user' method='POST'></form>
+<form name='form-delete' action='{{route}}' method='POST'></form>
 
-<script src='/js/user.js'></script>
+<script src='/js/main.js'></script>
+<script>
+    const message = '{{{message}}}'; if(message) alert(message);
+</script>

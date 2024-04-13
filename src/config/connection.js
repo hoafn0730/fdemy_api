@@ -10,7 +10,7 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST || config.host,
         dialect: process.env.DB_CONNECTION || config.dialect,
-        logging: config.logging,
+        ...config,
     },
 );
 

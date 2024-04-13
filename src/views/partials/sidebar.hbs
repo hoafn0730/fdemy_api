@@ -18,18 +18,55 @@
                 </a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='/user'>
+                <a class='nav-link' href='/users'>
                     <span class='icon fa-regular fa-user'></span>
                     <span class='menu-title'>User</span>
                 </a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='/course'>
-                    <span class='icon fa-regular fa-user'></span>
-                    <span class='menu-title'>Course</span>
+                <a class='nav-link' href='/categories'>
+                    <svg
+                        class='icon'
+                        fill='currentColor'
+                        version='1.1'
+                        id='Layer_1'
+                        xmlns='http://www.w3.org/2000/svg'
+                        xmlns:xlink='http://www.w3.org/1999/xlink'
+                        x='0px'
+                        y='0px'
+                        viewBox='0 0 40 40'
+                        enable-background='new 0 0 40 40'
+                        xml:space='preserve'
+                    >
+                        <g>
+                            <path
+                                d='M20,21.569c-0.095,0-0.189-0.021-0.282-0.062L5.434,15.115C5.165,14.995,4.994,14.72,5,14.413
+		c0.006-0.303,0.191-0.578,0.46-0.683l14.286-5.681C19.828,8.017,19.913,8,20,8c0.086,0,0.172,0.017,0.254,0.049l14.285,5.679
+		c0.275,0.11,0.455,0.378,0.461,0.683c0.008,0.308-0.163,0.584-0.434,0.704L20.281,21.51C20.192,21.549,20.096,21.569,20,21.569
+		L20,21.569z M7.626,14.468l12.339,5.522l12.409-5.522L20,9.549L7.626,14.468z'
+                            ></path>
+                            <path
+                                d='M5.434,20.49c-0.361-0.163-0.53-0.604-0.376-0.983c0.113-0.275,0.372-0.454,0.659-0.454c0.097,0,0.191,0.021,0.282,0.062
+		l13.967,6.249l14.037-6.249c0.092-0.042,0.186-0.062,0.283-0.062c0.286,0,0.544,0.177,0.656,0.454
+		c0.155,0.379-0.014,0.82-0.376,0.983L20,27.008L5.434,20.49z'
+                            ></path>
+                            <path
+                                d='M5.434,25.48c-0.362-0.164-0.531-0.604-0.376-0.981c0.113-0.275,0.372-0.454,0.659-0.454c0.097,0,0.191,0.021,0.282,0.061
+		l13.967,6.25l14.037-6.25c0.09-0.039,0.186-0.061,0.283-0.061c0.286,0,0.544,0.179,0.656,0.454
+		c0.155,0.378-0.014,0.819-0.375,0.981L20,32L5.434,25.48z'
+                            ></path>
+                        </g>
+                    </svg>
+                    <span class='menu-title'>Category</span>
                 </a>
             </li>
             <li class='nav-item'>
+                <a class='nav-link' href='/courses'>
+                    <span class='icon fa-regular fa-rectangle-list'></span>
+                    <span class='menu-title'>Course</span>
+                </a>
+            </li>
+            {{! <li class='nav-item'>
                 <a
                     class='nav-link'
                     data-toggle='collapse'
@@ -54,109 +91,8 @@
                         </li>
                     </ul>
                 </div>
-            </li>
-            <li class='nav-item'>
-                <a
-                    class='nav-link'
-                    data-toggle='collapse'
-                    href='#form-elements'
-                    aria-expanded='false'
-                    aria-controls='form-elements'
-                >
-                    <i class='icon-columns menu-icon'></i>
-                    <span class='menu-title'>Form elements</span>
-                    <i class='fa-solid fa-angle-down'></i>
-                </a>
-                <div class='collapse' id='form-elements'>
-                    <ul class='nav flex-column sub-menu'>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='pages/forms/basic_elements.html'>Basic Elements</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class='nav-item'>
-                <a class='nav-link' data-toggle='collapse' href='#charts' aria-expanded='false' aria-controls='charts'>
-                    <i class='icon-bar-graph menu-icon'></i>
-                    <span class='menu-title'>Charts</span>
-                    <i class='fa-solid fa-angle-down'></i>
-                </a>
-                <div class='collapse' id='charts'>
-                    <ul class='nav flex-column sub-menu'>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='pages/charts/chartjs.html'>ChartJs</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class='nav-item'>
-                <a class='nav-link' data-toggle='collapse' href='#tables' aria-expanded='false' aria-controls='tables'>
-                    <i class='icon-grid-2 menu-icon'></i>
-                    <span class='menu-title'>Tables</span>
-                    <i class='fa-solid fa-angle-down'></i>
-                </a>
-                <div class='collapse' id='tables'>
-                    <ul class='nav flex-column sub-menu'>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='pages/tables/basic-table.html'>Basic table</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class='nav-item'>
-                <a class='nav-link' data-toggle='collapse' href='#icons' aria-expanded='false' aria-controls='icons'>
-                    <i class='icon-contract menu-icon'></i>
-                    <span class='menu-title'>Icons</span>
-                    <i class='fa-solid fa-angle-down'></i>
-                </a>
-                <div class='collapse' id='icons'>
-                    <ul class='nav flex-column sub-menu'>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='pages/icons/mdi.html'>Mdi icons</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class='nav-item'>
-                <a class='nav-link' data-toggle='collapse' href='#auth' aria-expanded='false' aria-controls='auth'>
-                    <i class='icon-head menu-icon'></i>
-                    <span class='menu-title'>User Pages</span>
-                    <i class='fa-solid fa-angle-down'></i>
-                </a>
-                <div class='collapse' id='auth'>
-                    <ul class='nav flex-column sub-menu'>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='pages/samples/login.html'> Login </a>
-                        </li>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='pages/samples/register.html'> Register </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class='nav-item'>
-                <a class='nav-link' data-toggle='collapse' href='#error' aria-expanded='false' aria-controls='error'>
-                    <i class='icon-ban menu-icon'></i>
-                    <span class='menu-title'>Error pages</span>
-                    <i class='fa-solid fa-angle-down'></i>
-                </a>
-                <div class='collapse' id='error'>
-                    <ul class='nav flex-column sub-menu'>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='pages/samples/error-404.html'> 404 </a>
-                        </li>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='pages/samples/error-500.html'> 500 </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li class='nav-item'>
-                <a class='nav-link' href='pages/documentation/documentation.html'>
-                    <i class='icon-paper menu-icon'></i>
-                    <span class='menu-title'>Documentation</span>
-                </a>
-            </li>
+            </li> }}
+
         </div>
     </ul>
 </aside>

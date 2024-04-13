@@ -1,7 +1,7 @@
 const express = require('express');
-const courseController = require('../../../controllers/CourseController');
-
 const router = express.Router();
+
+const courseController = require('../../controllers/CourseController');
 
 // [GET] /course
 router.get('/', courseController.index);

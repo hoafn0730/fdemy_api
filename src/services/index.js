@@ -37,7 +37,7 @@ const methodsService = (Model) => {
                         rows,
                     };
                 } else {
-                    data = await db[Model].findAll({ raw: true });
+                    data = await db[Model].findAll({ include: payload.include, raw: true });
                 }
 
                 if (data) {
@@ -57,7 +57,7 @@ const methodsService = (Model) => {
                 return {
                     code: -1,
                     message: 'Something wrong in the server',
-                    data: [error],
+                    data: [{ error }],
                 };
             }
         },
@@ -84,8 +84,8 @@ const methodsService = (Model) => {
             } catch (error) {
                 return {
                     code: -1,
-                    message: error.errors[0].message,
-                    data: [],
+                    message: 'Something wrong in the server',
+                    data: [{ error }],
                 };
             }
         },
@@ -116,8 +116,8 @@ const methodsService = (Model) => {
             } catch (error) {
                 return {
                     code: -1,
-                    message: error.errors[0].message,
-                    data: [],
+                    message: 'Something wrong in the server',
+                    data: [{ error }],
                 };
             }
         },
@@ -146,7 +146,7 @@ const methodsService = (Model) => {
                 return {
                     code: -1,
                     message: 'Something wrong in the server',
-                    data: [],
+                    data: [{ error }],
                 };
             }
         },
