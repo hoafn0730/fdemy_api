@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class='row'>
-        <div class='col-6 grid-margin stretch-card'>
+        <div class='col-8 grid-margin stretch-card'>
             <div class='card'>
                 <div class='card-body'>
                     <h4 class='card-title'>Edit category</h4>
@@ -18,7 +18,7 @@
                             {{error}}
                         </div>
                     {{/if}}
-                    <form action='/categories/{{category.id}}?_method=patch' class='forms-sample' method='POST'>
+                    <form action='{{route}}/{{category.id}}?_method=patch' class='forms-sample' method='POST'>
                         <div class='form-group'>
                             <label for='title'>Title:</label>
                             <input
@@ -66,7 +66,6 @@
                         </div>
 
                         <button type='submit' class='btn btn-primary mr-2'>Submit</button>
-                        <button class='btn btn-light'>Cancel</button>
                     </form>
                 </div>
             </div>

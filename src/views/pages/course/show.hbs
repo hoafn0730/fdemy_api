@@ -59,7 +59,7 @@
                                                 <td>{{formatDate this.createdAt}}</td>
                                                 <td class='details-control'>
                                                     <a
-                                                        href='/courses/{{this.id}}/edit'
+                                                        href='{{../route}}/{{this.id}}/edit'
                                                         id='btn-edit'
                                                         class='btn btn-primary'
                                                     >Edit</a>
@@ -70,9 +70,9 @@
                                                         data-toggle='modal'
                                                         data-target='#delete-modal'
                                                     >Delete</button>
+                                                    <a href='#' class='btn btn-info text-light'>Detail</a>
                                                 </td>
                                             </tr>
-
                                         {{/each}}
 
                                     </tbody>
@@ -96,7 +96,7 @@
     aria-labelledby='exampleModalLabel'
     aria-hidden='true'
 >
-    <div class='modal-dialog' role='document'>
+    <div class='modal-dialog modal-lg' role='document'>
         <div class='modal-content'>
             <div class='modal-header'>
                 <h5 class='modal-title' id='exampleModalLabel'>Create new course</h5>
@@ -130,16 +130,7 @@
                         <label for='price'>price:</label>
                         <input type='text' name='price' class='form-control' id='price' placeholder='Enter price' />
                     </div>
-                    <div class='form-group'>
-                        <label for='content'>Content:</label>
-                        <textarea
-                            type='text'
-                            name='content'
-                            class='form-control'
-                            id='content'
-                            placeholder='Enter content'
-                        ></textarea>
-                    </div>
+                   
                     <div class='form-group'>
                         <label for='video'>Video:</label>
                         <input type='text' name='video' class='form-control' id='video' placeholder='Enter video' />
@@ -153,6 +144,16 @@
                                 <option value='{{this.id}}'>{{this.title}}</option>
                             {{/each}}
                         </select>
+                    </div>
+                     <div class='form-group'>
+                        <label for='content'>Content:</label>
+                        <textarea
+                            type='text'
+                            name='content'
+                            class='form-control'
+                            id='content'
+                            placeholder='Enter content'
+                        ></textarea>
                     </div>
 
                 </form>
@@ -197,5 +198,6 @@
 
 <script src='/js/main.js'></script>
 <script>
-    const message = '{{{message}}}'; if(message) alert(message);
+    document.addEventListener('DOMContentLoaded', function(){ const message = '{{{message}}}'; if(message)
+    alert(message); });
 </script>

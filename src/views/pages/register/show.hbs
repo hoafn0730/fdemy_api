@@ -54,7 +54,7 @@
                                                 <td>{{formatDate this.registeredAt}}</td>
                                                 <td class='details-control'>
                                                     <a
-                                                        href='/registers/{{this.id}}/edit'
+                                                        href='{{../route}}/{{this.id}}/edit'
                                                         id='btn-edit'
                                                         class='btn btn-primary'
                                                     >Edit</a>
@@ -91,7 +91,7 @@
     aria-labelledby='exampleModalLabel'
     aria-hidden='true'
 >
-    <div class='modal-dialog' role='document'>
+    <div class='modal-dialog modal-lg' role='document'>
         <div class='modal-content'>
             <div class='modal-header'>
                 <h5 class='modal-title' id='exampleModalLabel'>Create new register</h5>
@@ -163,5 +163,7 @@
 
 <script src='/js/main.js'></script>
 <script>
-    const message = '{{{message}}}'; if(message) alert(message);
+
+    document.addEventListener('DOMContentLoaded', function(){ const message = '{{{message}}}'; if(message)
+    alert(message); });
 </script>

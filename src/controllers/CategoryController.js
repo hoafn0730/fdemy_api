@@ -3,14 +3,15 @@ const generateSlug = require('../utils/generateSlug');
 
 class CategoryController {
     constructor() {
-        this.page = 'category';
+        this.model = 'category';
         this.route = '/categories';
     }
 
     // WEB
+    // [GET] /categories
     index = async (req, res) => {
         const categories = await categoryService.find({});
-        res.render('pages/' + this.page + '/show', {
+        res.render('pages/' + this.model + '/show', {
             categories: categories.data,
             route: this.route,
             message: req.flash('info'),
@@ -18,8 +19,8 @@ class CategoryController {
         });
     };
 
+    // [POST] /categories
     store = async (req, res) => {
-        console.log(generateSlug(req.body.title));
         const data = await categoryService.create({ ...req.body, slug: generateSlug(req.body.title) });
         if (data.data[0]?.error) {
             req.flash('error', data.message);
@@ -29,16 +30,18 @@ class CategoryController {
         res.redirect('back');
     };
 
+    // [GET] /categories/:id/edit
     edit = async (req, res) => {
         const id = req.params.id;
         const { data } = await categoryService.find({ where: { id } });
-        res.render('pages/' + this.page + '/edit', {
-            category: data,
+        res.render('pages/' + this.model + '/edit', {
+            [this.model]: data,
             route: this.route,
             error: req.flash('error'),
         });
     };
 
+    // [PATCH] /categories/:id
     update = async (req, res) => {
         const id = req.params.id;
         const data = await categoryService.update({ data: req.body, where: { id } });
@@ -51,6 +54,7 @@ class CategoryController {
         res.redirect(this.route);
     };
 
+    // [DELETE] /categories/:id
     destroy = async (req, res) => {
         const id = req.params.id;
         const data = await categoryService.delete({ where: { id } });

@@ -2,14 +2,15 @@ const userService = require('../services/userService');
 
 class UserController {
     constructor() {
-        this.page = 'user';
+        this.model = 'user';
         this.route = '/users';
     }
 
     // WEB
+    // [GET] /users
     index = async (req, res) => {
         const users = await userService.find({});
-        res.render('pages/' + this.page + '/show', {
+        res.render('pages/' + this.model + '/show', {
             users: users.data,
             route: this.route,
             message: req.flash('info'),
@@ -17,6 +18,7 @@ class UserController {
         });
     };
 
+    // [POST] /users
     store = async (req, res) => {
         const data = await userService.create(req.body);
 
@@ -28,16 +30,18 @@ class UserController {
         res.redirect('back');
     };
 
+    // [GET] /users/:id/edit
     edit = async (req, res) => {
         const id = req.params.id;
         const { data } = await userService.find({ where: { id } });
-        res.render('pages/' + this.page + '/edit', {
-            user: data,
+        res.render('pages/' + this.model + '/edit', {
+            [this.model]: data,
             route: this.route,
             error: req.flash('error'),
         });
     };
 
+    // [PATCH] /users/:id
     update = async (req, res) => {
         const id = req.params.id;
         const data = await userService.update({ data: req.body, where: { id } });
@@ -50,6 +54,7 @@ class UserController {
         res.redirect(this.route);
     };
 
+    // [DELETE] /users/:id
     destroy = async (req, res) => {
         const id = req.params.id;
         const data = await userService.delete({ where: { id } });

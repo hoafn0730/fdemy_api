@@ -1,6 +1,6 @@
 const navItems = document.querySelectorAll('.sidebar .nav:not(.sub-menu) > div > .nav-item');
 
-const routes = ['/', '/users', '/categories', '/courses', '/registers'];
+const routes = ['/', '/users', '/categories', '/courses', '/lessons', '/registers', '/invoices'];
 
 routes.some((route, index) => {
     if (route === location.pathname) {
@@ -19,7 +19,11 @@ const handleForm = () => {
     const btnDelete = document.querySelector('#btn-delete');
 
     btnCreate.onclick = function () {
-        form.submit();
+        if (form.checkValidity()) {
+            form.submit();
+        } else {
+            alert('Please fill out all required fields.');
+        }
     };
 
     btnConfirmDelete.forEach(

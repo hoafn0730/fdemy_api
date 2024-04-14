@@ -3,7 +3,7 @@
         <div class='col-md-12 grid-margin'>
             <div class='row'>
                 <div class='col-12 col-xl-8 mb-4 mb-xl-0'>
-                    <h3 class='font-weight-bold title'>Category</h3>
+                    <h3 class='font-weight-bold title'>Invoice</h3>
                 </div>
 
             </div>
@@ -15,7 +15,7 @@
             <div class='card'>
                 <div class='card-body'>
                     <div class='card-header'>
-                        <p class='card-title'>Category Table</p>
+                        <p class='card-title'>Invoice Table</p>
 
                         <button
                             class='btn btn-primary btn-create'
@@ -36,24 +36,22 @@
                                     <thead>
                                         <tr>
                                             <th>Quote#</th>
-                                            <th>Title</th>
-                                            <th>Description</th>
-                                            <th>Image</th>
-                                            <th>createdAt</th>
+                                            <th>courseId</th>
+                                            <th>userId</th>
+                                            <th>registeredAt</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each categories}}
+                                        {{#each invoices}}
                                             <tr>
                                                 <td>
                                                     <input value='{{this.id}}' type='checkbox' name='id' id='id' />
                                                     {{sum @index 1}}
                                                 </td>
-                                                <td>{{this.title}}</td>
-                                                <td>{{this.description}}</td>
-                                                <td>{{this.image}}</td>
-                                                <td>{{formatDate this.createdAt}}</td>
+                                                <td>{{'course.title'}}</td>
+                                                <td>{{'user.username'}}</td>
+                                                <td>{{formatDate this.registeredAt}}</td>
                                                 <td class='details-control'>
                                                     <a
                                                         href='{{../route}}/{{this.id}}/edit'
@@ -96,7 +94,7 @@
     <div class='modal-dialog modal-lg' role='document'>
         <div class='modal-content'>
             <div class='modal-header'>
-                <h5 class='modal-title' id='exampleModalLabel'>Create new category</h5>
+                <h5 class='modal-title' id='exampleModalLabel'>Create new invoice</h5>
                 <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
                     <span aria-hidden='true'>&times;</span>
                 </button>
@@ -105,32 +103,22 @@
 
                 <form name='form' action='{{route}}' method='POST'>
                     <div class='form-group'>
-                        <label for='title'>Title:</label>
-                        <input type='text' name='title' class='form-control' id='title' placeholder='Enter title' />
+                        <label for='courseId'>Course:</label>
+                        <select name='courseId' class='form-control' id='courseId'>
+                            <option selected disabled>-- select course --</option>
+                            {{#each courses}}
+                                <option value='{{this.id}}'>{{this.title}}</option>
+                            {{/each}}
+                        </select>
                     </div>
                     <div class='form-group'>
-                        <label for='description'>Description:</label>
-                        <input
-                            type='text'
-                            name='description'
-                            class='form-control'
-                            id='description'
-                            placeholder='Enter description'
-                        />
-                    </div>
-                    <div class='form-group'>
-                        <label for='image'>Image:</label>
-                        <input type='text' name='image' class='form-control' id='image' placeholder='Enter image' />
-                    </div>
-                    <div class='form-group'>
-                        <label for='content'>Content:</label>
-                        <textarea
-                            type='text'
-                            name='content'
-                            class='form-control'
-                            id='content'
-                            placeholder='Enter content'
-                        ></textarea>
+                        <label for='userId'>User:</label>
+                        <select name='userId' class='form-control' id='userId'>
+                            <option selected disabled>-- select user --</option>
+                            {{#each users}}
+                                <option value='{{this.id}}'>{{this.username}}</option>
+                            {{/each}}
+                        </select>
                     </div>
 
                 </form>
@@ -155,7 +143,7 @@
     <div class='modal-dialog' role='document'>
         <div class='modal-content'>
             <div class='modal-header'>
-                <h5 class='modal-title' id='exampleModalLabel'>Delete categories</h5>
+                <h5 class='modal-title' id='exampleModalLabel'>Delete user</h5>
                 <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
                     <span aria-hidden='true'>&times;</span>
                 </button>

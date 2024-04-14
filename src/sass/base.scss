@@ -68,3 +68,7 @@ th {
 select.form-control:not([size]):not([multiple]) {
     height: auto;
 }
+
+.pagination-lg .page-link {
+    font-size: 16px;
+}

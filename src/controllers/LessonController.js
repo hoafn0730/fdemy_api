@@ -1,42 +1,53 @@
-const db = require('../models');
-const userService = require('../services/userService');
+const lessonService = require('../services/lessonService');
 const courseService = require('../services/courseService');
-const registerService = require('../services/registerService');
+const db = require('../models');
 
-class RegisterController {
+class LessonController {
     constructor() {
-        this.model = 'register';
-        this.route = '/registers';
+        this.model = 'lesson';
+        this.route = '/lessons';
     }
 
     // WEB
-    // [GET] /registers
+    // [GET] /lessons
     index = async (req, res) => {
-        const registers = await registerService.find({
+        let courseId = req.query.c;
+        const page = req.query.page;
+        const courses = await courseService.find({});
+        if (!courseId) {
+            courseId = courses.data[0].id;
+            return res.redirect(`${this.route}?c=${courseId}&page=${1}`);
+        }
+        if (!page) {
+            return res.redirect(`${this.route}?c=${courseId}&page=${1}`);
+        }
+
+        const data = await lessonService.find({
+            page,
+            search: { courseId },
             include: [
-                { model: db.Course, as: 'course', attributes: ['id', 'title'] },
-                { model: db.User, as: 'user', attributes: ['id', 'username'] },
+                {
+                    model: db.Course,
+                    as: 'course',
+                    attributes: ['id', 'title'],
+                },
             ],
         });
-        const courses = await courseService.find({});
-        const users = await userService.find({});
-
-        // res.json(registers);
 
         res.render('pages/' + this.model + '/show', {
-            registers: registers.data,
-            users: users.data,
+            lessons: data.data,
+            course: courses.data.find((x) => x.id === +courseId),
             courses: courses.data,
+            pageNumber: data.data.pageNumber,
             route: this.route,
             message: req.flash('info'),
             error: req.flash('error'),
         });
     };
 
-    // [POST] /registers
+    // [POST] /lessons
     store = async (req, res) => {
-        const data = await registerService.create({ ...req.body });
-
+        const data = await lessonService.create({ ...req.body });
         if (data.data[0]?.error) {
             req.flash('error', data.message);
         } else {
@@ -45,25 +56,24 @@ class RegisterController {
         res.redirect('back');
     };
 
-    // [GET] /registers/:id/edit
+    // [GET] /lessons/:id/edit
     edit = async (req, res) => {
         const id = req.params.id;
-        const { data } = await registerService.find({ where: { id } });
+        const { data } = await lessonService.find({ where: { id } });
         const courses = await courseService.find({});
-        const users = await userService.find({});
         res.render('pages/' + this.model + '/edit', {
             [this.model]: data,
-            users: users.data,
             courses: courses.data,
             route: this.route,
             error: req.flash('error'),
         });
     };
 
-    // [PATCH] /registers/:id
+    // [PATCH] /lessons/:id
     update = async (req, res) => {
         const id = req.params.id;
-        const data = await registerService.update({ data: req.body, where: { id } });
+        console.log(req.body);
+        const data = await lessonService.update({ data: req.body, where: { id } });
         if (data.data[0]?.error) {
             req.flash('error', data.message);
             return res.redirect('back');
@@ -73,10 +83,10 @@ class RegisterController {
         res.redirect(this.route);
     };
 
-    // [DELETE] /registers/:id
+    // [DELETE] /lessons/:id
     destroy = async (req, res) => {
         const id = req.params.id;
-        const data = await registerService.delete({ where: { id } });
+        const data = await lessonService.delete({ where: { id } });
         if (data.data[0]?.error) {
             req.flash('error', data.message);
         } else {
@@ -86,4 +96,4 @@ class RegisterController {
     };
 }
 
-module.exports = new RegisterController();
+module.exports = new LessonController();

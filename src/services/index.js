@@ -7,12 +7,22 @@ const methodsService = (Model) => {
                 let data;
                 if (payload.where) {
                     if (payload.where.id) {
-                        data = await db[Model].findByPk(payload.where.id, { raw: true });
-                    } else {
+                        data = await db[Model].findByPk(payload.where.id, {
+                            include: payload.include,
+                            raw: true,
+                        });
+                    } else if (payload.findOne) {
                         data = await db[Model].findOne({
                             where: {
                                 ...payload.where,
                             },
+                            include: payload.include,
+                            raw: true,
+                        });
+                    } else {
+                        data = await db[Model].findAll({
+                            include: payload.include,
+                            where: { ...payload.where },
                             raw: true,
                         });
                     }
@@ -28,12 +38,16 @@ const methodsService = (Model) => {
                         },
                         offset: skip,
                         limit: pageSize,
+                        include: payload.include,
+                        raw: true,
                     });
+                    const pageNumber = Math.ceil(+count / +pageSize);
 
                     data = {
                         count,
                         page,
                         pageSize,
+                        pageNumber,
                         rows,
                     };
                 } else {

@@ -3,7 +3,7 @@
         <div class='col-md-12 grid-margin'>
             <div class='row'>
                 <div class='col-12 col-xl-8 mb-4 mb-xl-0'>
-                    <h3 class='font-weight-bold title'>Register</h3>
+                    <h3 class='font-weight-bold title'>Invoice</h3>
                 </div>
 
             </div>
@@ -13,14 +13,14 @@
         <div class='col-8 grid-margin stretch-card'>
             <div class='card'>
                 <div class='card-body'>
-                    <h4 class='card-title'>Edit register</h4>
+                    <h4 class='card-title'>Edit invoice</h4>
                     {{#if error}}
                         <div class='alert alert-danger' role='alert'>
                             {{error}}
                         </div>
                     {{/if}}
 
-                    <form action='{{route}}/{{register.id}}?_method=patch' class='forms-sample' method='POST'>
+                    <form action='{{route}}/{{invoice.id}}?_method=patch' class='forms-sample' method='POST'>
                         <div class='form-group'>
                             <label for='courseId'>Course:</label>
                             <select name='courseId' class='form-control' id='courseId'>
