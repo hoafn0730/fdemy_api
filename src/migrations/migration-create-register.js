@@ -21,7 +21,7 @@ module.exports = {
                     defaultValue: Sequelize.NOW,
                 },
                 process: {
-                    type: Sequelize.STRING,
+                    type: Sequelize.INTEGER,
                 },
                 endOfCourse: {
                     type: Sequelize.STRING,

@@ -10,7 +10,7 @@ class CategoryController {
     // WEB
     // [GET] /categories
     index = async (req, res) => {
-        const categories = await categoryService.find({});
+        const categories = await categoryService.find({ raw: true });
         res.render('pages/' + this.model + '/show', {
             categories: categories.data,
             route: this.route,
@@ -41,7 +41,7 @@ class CategoryController {
         });
     };
 
-    // [PATCH] /categories/:id
+    // [PUT] /categories/:id
     update = async (req, res) => {
         const id = req.params.id;
         const data = await categoryService.update({ data: req.body, where: { id } });
@@ -64,6 +64,17 @@ class CategoryController {
             req.flash('info', 'Delete success!');
         }
         res.redirect('back');
+    };
+
+    // API
+    getCategories = async (req, res) => {
+        const data = await categoryService.find({});
+
+        if (data.code === -1) {
+            return res.status(500).json(data);
+        }
+
+        return res.status(200).json(data);
     };
 }
 

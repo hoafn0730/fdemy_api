@@ -17,11 +17,10 @@ class InvoiceController {
                 { model: db.Course, as: 'course', attributes: ['id', 'title'] },
                 { model: db.User, as: 'user', attributes: ['id', 'username'] },
             ],
+            raw: true,
         });
-        const courses = await courseService.find({});
-        const users = await userService.find({});
-
-        // res.json(invoices);
+        const courses = await courseService.find({ raw: true });
+        const users = await userService.find({ raw: true });
 
         res.render('pages/' + this.model + '/show', {
             invoices: invoices.data,
@@ -60,7 +59,7 @@ class InvoiceController {
         });
     };
 
-    // [PATCH] /invoices/:id
+    // [PUT] /invoices/:id
     update = async (req, res) => {
         const id = req.params.id;
         const data = await invoiceService.update({ data: req.body, where: { id } });

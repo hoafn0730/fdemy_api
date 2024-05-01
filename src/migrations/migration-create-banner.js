@@ -28,6 +28,9 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             priority: {
+                type: Sequelize.INTEGER,
+            },
+            style: {
                 type: Sequelize.STRING,
             },
             createdAt: {

@@ -13,13 +13,14 @@ class RegisterController {
     // [GET] /registers
     index = async (req, res) => {
         const registers = await registerService.find({
+            raw: true,
             include: [
                 { model: db.Course, as: 'course', attributes: ['id', 'title'] },
                 { model: db.User, as: 'user', attributes: ['id', 'username'] },
             ],
         });
-        const courses = await courseService.find({});
-        const users = await userService.find({});
+        const courses = await courseService.find({ raw: true });
+        const users = await userService.find({ raw: true });
 
         // res.json(registers);
 
@@ -60,7 +61,7 @@ class RegisterController {
         });
     };
 
-    // [PATCH] /registers/:id
+    // [PUT] /registers/:id
     update = async (req, res) => {
         const id = req.params.id;
         const data = await registerService.update({ data: req.body, where: { id } });

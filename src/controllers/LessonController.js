@@ -13,7 +13,7 @@ class LessonController {
     index = async (req, res) => {
         let courseId = req.query.c;
         const page = req.query.page;
-        const courses = await courseService.find({});
+        const courses = await courseService.find({ raw: true });
         if (!courseId) {
             courseId = courses.data[0].id;
             return res.redirect(`${this.route}?c=${courseId}&page=${1}`);
@@ -22,7 +22,7 @@ class LessonController {
             return res.redirect(`${this.route}?c=${courseId}&page=${1}`);
         }
 
-        const data = await lessonService.find({
+        const resData = await lessonService.find({
             page,
             search: { courseId },
             include: [
@@ -35,10 +35,10 @@ class LessonController {
         });
 
         res.render('pages/' + this.model + '/show', {
-            lessons: data.data,
+            lessons: resData.data.data,
             course: courses.data.find((x) => x.id === +courseId),
             courses: courses.data,
-            pageNumber: data.data.pageNumber,
+            pageNumber: resData.data.meta.pageNumber,
             route: this.route,
             message: req.flash('info'),
             error: req.flash('error'),
@@ -69,7 +69,7 @@ class LessonController {
         });
     };
 
-    // [PATCH] /lessons/:id
+    // [PUT] /lessons/:id
     update = async (req, res) => {
         const id = req.params.id;
         console.log(req.body);

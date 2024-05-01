@@ -10,6 +10,7 @@ const methodsService = (Model) => {
                         data = await db[Model].findByPk(payload.where.id, {
                             include: payload.include,
                             raw: true,
+                            ...payload,
                         });
                     } else if (payload.findOne) {
                         data = await db[Model].findOne({
@@ -18,12 +19,14 @@ const methodsService = (Model) => {
                             },
                             include: payload.include,
                             raw: true,
+                            ...payload,
                         });
                     } else {
                         data = await db[Model].findAll({
                             include: payload.include,
                             where: { ...payload.where },
                             raw: true,
+                            ...payload,
                         });
                     }
                 } else if (payload.page) {
@@ -40,18 +43,20 @@ const methodsService = (Model) => {
                         limit: pageSize,
                         include: payload.include,
                         raw: true,
+                        ...payload,
                     });
                     const pageNumber = Math.ceil(+count / +pageSize);
-
                     data = {
-                        count,
-                        page,
-                        pageSize,
-                        pageNumber,
-                        rows,
+                        meta: {
+                            count,
+                            page,
+                            pageSize,
+                            pageNumber,
+                        },
+                        data: rows,
                     };
                 } else {
-                    data = await db[Model].findAll({ include: payload.include, raw: true });
+                    data = await db[Model].findAll({ include: payload.include, ...payload });
                 }
 
                 if (data) {

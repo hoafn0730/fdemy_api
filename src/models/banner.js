@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
             ctaTitle: DataTypes.STRING,
             linkTo: DataTypes.STRING,
             priority: DataTypes.INTEGER,
+            style: DataTypes.STRING,
         },
         {
             sequelize,

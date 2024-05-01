@@ -1,3 +1,4 @@
+require('module-alias/register');
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
@@ -5,6 +6,8 @@ const handlebars = require('express-handlebars');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
+const cors = require('cors');
+const helmet = require('helmet');
 
 const routes = require('./routes');
 const { sequelize, connect } = require('./config/connection');
@@ -26,6 +29,8 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
 // app.use(morgan('dev'));
+// app.use(helmet());
+app.use(cors({ origin: '*', credentials: true }));
 app.use(
     session({
         secret: 'flashblog',

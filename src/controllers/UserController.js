@@ -9,7 +9,7 @@ class UserController {
     // WEB
     // [GET] /users
     index = async (req, res) => {
-        const users = await userService.find({});
+        const users = await userService.find({ raw: true });
         res.render('pages/' + this.model + '/show', {
             users: users.data,
             route: this.route,
@@ -41,7 +41,7 @@ class UserController {
         });
     };
 
-    // [PATCH] /users/:id
+    // [PUT] /users/:id
     update = async (req, res) => {
         const id = req.params.id;
         const data = await userService.update({ data: req.body, where: { id } });
@@ -58,7 +58,6 @@ class UserController {
     destroy = async (req, res) => {
         const id = req.params.id;
         const data = await userService.delete({ where: { id } });
-        console.log('🚀 ~ UserController ~ destroy= ~ data:', data);
         if (data.data[0]?.error) {
             req.flash('error', data.message);
         } else {
@@ -95,7 +94,7 @@ class UserController {
         res.json(data);
     };
 
-    // [PATCH] /users/:id
+    // [PUT] /users/:id
     updateUser = async (req, res) => {
         const id = req.params.id;
         const data = await userService.update({

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const sequelize = require('../../config/connection');
+const sequelize = require('~/config/connection');
 
 router.get('/', async (req, res) => {
     const data = await sequelize.query('SELECT * FROM users;').then((res) => res[0][0]);

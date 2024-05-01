@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 defaultValue: DataTypes.NOW,
             },
-            process: DataTypes.STRING,
+            process: DataTypes.INTEGER,
             endOfCourse: DataTypes.STRING,
         },
         {
