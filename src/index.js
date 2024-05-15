@@ -7,7 +7,7 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
 const cors = require('cors');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 
 const routes = require('./routes');
 const { sequelize, connect } = require('./config/connection');
@@ -28,7 +28,7 @@ app.engine(
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
-// app.use(morgan('dev'));
+app.use(morgan('dev'));
 // app.use(helmet());
 app.use(cors({ origin: '*', credentials: true }));
 app.use(
@@ -47,7 +47,6 @@ app.use(
     }),
 );
 app.use(express.json());
-
 routes(app);
 
 app.listen(port, () => {

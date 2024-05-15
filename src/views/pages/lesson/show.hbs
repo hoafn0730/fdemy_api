@@ -304,3 +304,11 @@
 </div>
 
 <form name='form-delete' action='{{route}}' method='POST'></form>
+<script> document.addEventListener('DOMContentLoaded', function(){
+        const selectCourse = document.getElementById('selectCourse'); 
+        selectCourse.onchange = function (e) { 
+            const val = e.target.value;
+            window.location.href = "/lessons?c=" + val
+        }
+    })
+    </script>

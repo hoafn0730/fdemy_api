@@ -5,7 +5,7 @@ const courseController = require('~/controllers/CourseController');
 router.get('/', courseController.index);
 router.post('/', courseController.store);
 router.get('/:id/edit', courseController.edit);
-router.put('/:id', courseController.update);
+router.put('/:id', courseController.updateWeb);
 router.delete('/:id', courseController.destroy);
 
 module.exports = router;

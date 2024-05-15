@@ -2,61 +2,60 @@ const db = require('../models');
 
 const methodsService = (Model) => {
     const methods = {
-        find: async (payload) => {
+        find: async ({ where, findOne, include, page, pageSize, search, ...payload }) => {
             try {
                 let data;
-                if (payload.where) {
-                    if (payload.where.id) {
-                        data = await db[Model].findByPk(payload.where.id, {
-                            include: payload.include,
+                if (where) {
+                    if (where.id) {
+                        data = await db[Model].findByPk(where.id, {
+                            include: include,
                             raw: true,
                             ...payload,
                         });
-                    } else if (payload.findOne) {
+                    } else if (findOne) {
                         data = await db[Model].findOne({
                             where: {
-                                ...payload.where,
+                                ...where,
                             },
-                            include: payload.include,
+                            include: include,
                             raw: true,
                             ...payload,
                         });
                     } else {
                         data = await db[Model].findAll({
-                            include: payload.include,
-                            where: { ...payload.where },
+                            include: include,
+                            where: { ...where },
                             raw: true,
                             ...payload,
                         });
                     }
-                } else if (payload.page) {
-                    const page = +payload.page < 1 ? 1 : +payload.page;
-                    const pageSize = +payload.pageSize || 10;
-                    const skip = (page - 1) * pageSize;
-                    const search = payload.search || {};
+                } else if (page) {
+                    const _page = +page < 1 ? 1 : +page;
+                    const _pageSize = pageSize || +pageSize || 10;
+                    const skip = (_page - 1) * _pageSize;
 
                     const { count, rows } = await db[Model].findAndCountAll({
                         where: {
                             ...search,
                         },
                         offset: skip,
-                        limit: pageSize,
-                        include: payload.include,
+                        limit: _pageSize,
+                        include: include,
                         raw: true,
                         ...payload,
                     });
-                    const pageNumber = Math.ceil(+count / +pageSize);
+                    const pageNumber = Math.ceil(+count / +_pageSize);
                     data = {
                         meta: {
                             count,
-                            page,
-                            pageSize,
+                            page: _page,
+                            pageSize: _pageSize,
                             pageNumber,
                         },
                         data: rows,
                     };
                 } else {
-                    data = await db[Model].findAll({ include: payload.include, ...payload });
+                    data = await db[Model].findAll({ include: include, ...payload });
                 }
 
                 if (data) {
@@ -73,6 +72,7 @@ const methodsService = (Model) => {
                     };
                 }
             } catch (error) {
+                console.log('🚀 ~ find: ~ error:', error);
                 return {
                     code: -1,
                     message: 'Something wrong in the server',
@@ -108,22 +108,23 @@ const methodsService = (Model) => {
                 };
             }
         },
-        update: async (payload) => {
+        update: async ({ where, data, ...payload }) => {
             try {
-                const data = await db[Model].update(
-                    { ...payload.data },
+                const _data = await db[Model].update(
+                    { ...data },
                     {
                         where: {
-                            ...payload.where,
+                            ...where,
                         },
+                        ...payload,
                     },
                 );
 
-                if (data[0]) {
+                if (_data[0]) {
                     return {
                         code: 0,
                         message: 'ok',
-                        data: data,
+                        data: _data,
                     };
                 }
 
@@ -140,11 +141,11 @@ const methodsService = (Model) => {
                 };
             }
         },
-        delete: async (payload) => {
+        delete: async ({ where, ...payload }) => {
             try {
                 const data = await db[Model].destroy({
                     where: {
-                        ...payload.where,
+                        ...where,
                     },
                 });
 

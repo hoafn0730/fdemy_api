@@ -10,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             this.belongsTo(models.Course, { foreignKey: 'courseId', as: 'course' });
+            this.hasMany(models.Quiz, { foreignKey: 'lessonId', as: 'quizzes' });
         }
     }
     Lesson.init(
         {
             courseId: DataTypes.INTEGER,
-            stepId: DataTypes.INTEGER,
             title: DataTypes.STRING,
             description: DataTypes.STRING,
             content: DataTypes.STRING,

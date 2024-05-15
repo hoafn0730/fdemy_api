@@ -2,9 +2,11 @@ const db = require('../models');
 const userService = require('../services/userService');
 const courseService = require('../services/courseService');
 const invoiceService = require('../services/invoiceService');
+const BaseController = require('./BaseController');
 
-class InvoiceController {
+class InvoiceController extends BaseController {
     constructor() {
+        super('invoice');
         this.model = 'invoice';
         this.route = '/invoices';
     }
@@ -60,7 +62,7 @@ class InvoiceController {
     };
 
     // [PUT] /invoices/:id
-    update = async (req, res) => {
+    updateWeb = async (req, res) => {
         const id = req.params.id;
         const data = await invoiceService.update({ data: req.body, where: { id } });
         if (data.data[0]?.error) {
@@ -82,6 +84,27 @@ class InvoiceController {
             req.flash('info', 'Delete success!');
         }
         res.redirect('back');
+    };
+
+    // [GET] /invoices
+    get = async (req, res) => {
+        const page = req.query.page;
+        const pageSize = req.query.pageSize;
+        const data = await invoiceService.find({
+            page: page,
+            pageSize,
+            include: [
+                { model: db.Course, as: 'course', attributes: ['id', 'title'] },
+                { model: db.User, as: 'user', attributes: ['id', 'username'] },
+            ],
+            raw: false,
+        });
+
+        if (data.code === -1) {
+            return res.status(500).json(data);
+        }
+
+        return res.status(200).json(data);
     };
 }
 

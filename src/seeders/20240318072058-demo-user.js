@@ -3,13 +3,10 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        return queryInterface.bulkInsert('Users', [
+        return queryInterface.bulkInsert('Quizzes', [
             {
-                username: 'hoafn0730',
-                email: 'hoafn0730@example.com',
-                password: '123456',
-                fullName: 'Hoàn Trần',
-                role: 'user',
+                lessonId: 52,
+                question: 'Ưu điểm của SPA là gì? Chọn câu trả lời đúng.',
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },

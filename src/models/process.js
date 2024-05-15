@@ -1,7 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class Track extends Model {
+    class Process extends Model {
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
@@ -11,14 +11,17 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
         }
     }
-    Track.init(
+    Process.init(
         {
-            courseId: DataTypes.INTEGER,
+            trackId: DataTypes.INTEGER,
+            userId: DataTypes.INTEGER,
+            stepId: DataTypes.INTEGER,
+            dateCompleted: DataTypes.DATE,
         },
         {
             sequelize,
-            modelName: 'Track',
+            modelName: 'Process',
         },
     );
-    return Track;
+    return Process;
 };

@@ -1,9 +1,16 @@
-const lessonService = require('../services/lessonService');
-const courseService = require('../services/courseService');
-const db = require('../models');
+const { v4: uuidv4 } = require('uuid');
 
-class LessonController {
+const db = require('~/models');
+const BaseController = require('./BaseController');
+const courseService = require('~/services/courseService');
+const lessonService = require('~/services/lessonService');
+const stepService = require('~/services/stepService');
+const trackService = require('~/services/trackService');
+const upload = require('~/middlewares/upload');
+
+class LessonController extends BaseController {
     constructor() {
+        super('lesson');
         this.model = 'lesson';
         this.route = '/lessons';
     }
@@ -14,6 +21,7 @@ class LessonController {
         let courseId = req.query.c;
         const page = req.query.page;
         const courses = await courseService.find({ raw: true });
+
         if (!courseId) {
             courseId = courses.data[0].id;
             return res.redirect(`${this.route}?c=${courseId}&page=${1}`);
@@ -48,6 +56,25 @@ class LessonController {
     // [POST] /lessons
     store = async (req, res) => {
         const data = await lessonService.create({ ...req.body });
+        const track = await trackService
+            .find({
+                findOne: true,
+                where: {
+                    courseId: req.body.courseId,
+                },
+                raw: true,
+            })
+            .catch((err) => console.log(err));
+
+        // tạo step
+        await stepService.create({
+            uuid: uuidv4(),
+            trackId: track.data.id,
+            lessonId: data.data.id,
+            title: data.data.title,
+            content: data.data.content,
+        });
+
         if (data.data[0]?.error) {
             req.flash('error', data.message);
         } else {
@@ -70,9 +97,8 @@ class LessonController {
     };
 
     // [PUT] /lessons/:id
-    update = async (req, res) => {
+    updateWeb = async (req, res) => {
         const id = req.params.id;
-        console.log(req.body);
         const data = await lessonService.update({ data: req.body, where: { id } });
         if (data.data[0]?.error) {
             req.flash('error', data.message);
@@ -93,6 +119,79 @@ class LessonController {
             req.flash('info', 'Delete success!');
         }
         res.redirect('back');
+    };
+
+    // [GET] /lessons
+    get = async (req, res) => {
+        const page = req.query.page;
+        const pageSize = req.query.pageSize;
+        const courseId = req.query.courseId;
+        const data = await lessonService.find({
+            page: page,
+            pageSize,
+            search: { courseId: courseId },
+        });
+
+        if (data.code === -1) {
+            return res.status(500).json(data);
+        }
+
+        return res.status(200).json(data);
+    };
+
+    // [POST] /lessons
+    create = async (req, res) => {
+        const data = await lessonService.create({
+            ...req.body,
+        });
+
+        const track = await trackService
+            .find({
+                findOne: true,
+                where: {
+                    courseId: req.body.courseId,
+                },
+                raw: true,
+            })
+            .catch((err) => console.log(err));
+
+        // tạo step
+        await stepService.create({
+            uuid: uuidv4(),
+            trackId: track.data.id,
+            lessonId: data.data.id,
+            title: data.data.title,
+            content: data.data.content,
+        });
+
+        if (data.code === -1) {
+            return res.status(500).json(data);
+        }
+
+        res.json(data);
+    };
+
+    // [DELETE] /lessons/:id
+    delete = async (req, res) => {
+        const id = req.params.id;
+
+        const data = await lessonService.delete({
+            where: {
+                id,
+            },
+        });
+
+        const { code } = await stepService.delete({
+            where: {
+                lessonId: id,
+            },
+        });
+
+        if (data.code === -1 && code === -1) {
+            return res.status(500).json(data);
+        }
+
+        res.json(data);
     };
 }
 

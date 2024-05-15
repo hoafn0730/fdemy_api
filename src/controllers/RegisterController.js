@@ -1,10 +1,12 @@
-const db = require('../models');
-const userService = require('../services/userService');
-const courseService = require('../services/courseService');
-const registerService = require('../services/registerService');
+const db = require('~/models');
+const userService = require('~/services/userService');
+const courseService = require('~/services/courseService');
+const registerService = require('~/services/registerService');
+const BaseController = require('./BaseController');
 
-class RegisterController {
+class RegisterController extends BaseController {
     constructor() {
+        super('register');
         this.model = 'register';
         this.route = '/registers';
     }
@@ -12,17 +14,17 @@ class RegisterController {
     // WEB
     // [GET] /registers
     index = async (req, res) => {
-        const registers = await registerService.find({
-            raw: true,
-            include: [
-                { model: db.Course, as: 'course', attributes: ['id', 'title'] },
-                { model: db.User, as: 'user', attributes: ['id', 'username'] },
-            ],
-        });
-        const courses = await courseService.find({ raw: true });
-        const users = await userService.find({ raw: true });
-
-        // res.json(registers);
+        const [registers, courses, users] = await Promise.all([
+            registerService.find({
+                raw: true,
+                include: [
+                    { model: db.Course, as: 'course', attributes: ['id', 'title'] },
+                    { model: db.User, as: 'user', attributes: ['id', 'username'] },
+                ],
+            }),
+            courseService.find({ raw: true }),
+            userService.find({ raw: true }),
+        ]);
 
         res.render('pages/' + this.model + '/show', {
             registers: registers.data,
@@ -62,7 +64,7 @@ class RegisterController {
     };
 
     // [PUT] /registers/:id
-    update = async (req, res) => {
+    updateWeb = async (req, res) => {
         const id = req.params.id;
         const data = await registerService.update({ data: req.body, where: { id } });
         if (data.data[0]?.error) {
@@ -84,6 +86,27 @@ class RegisterController {
             req.flash('info', 'Delete success!');
         }
         res.redirect('back');
+    };
+
+    // [GET] /models
+    get = async (req, res) => {
+        const page = req.query.page;
+        const pageSize = req.query.pageSize;
+        const data = await registerService.find({
+            page: page,
+            pageSize,
+            include: [
+                { model: db.Course, as: 'course', attributes: ['id', 'title'] },
+                { model: db.User, as: 'user', attributes: ['id', 'username'] },
+            ],
+            raw: false,
+        });
+
+        if (data.code === -1) {
+            return res.status(500).json(data);
+        }
+
+        return res.status(200).json(data);
     };
 }
 

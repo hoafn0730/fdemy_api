@@ -1,8 +1,10 @@
 const categoryService = require('../services/categoryService');
 const generateSlug = require('../utils/generateSlug');
+const BaseController = require('./BaseController');
 
-class CategoryController {
+class CategoryController extends BaseController {
     constructor() {
+        super('category');
         this.model = 'category';
         this.route = '/categories';
     }
@@ -42,10 +44,11 @@ class CategoryController {
     };
 
     // [PUT] /categories/:id
-    update = async (req, res) => {
+    updateWeb = async (req, res) => {
         const id = req.params.id;
         const data = await categoryService.update({ data: req.body, where: { id } });
-        if (data.data[0]?.error) {
+
+        if (data.code != 0) {
             req.flash('error', data.message);
             return res.redirect('back');
         } else {
@@ -64,17 +67,6 @@ class CategoryController {
             req.flash('info', 'Delete success!');
         }
         res.redirect('back');
-    };
-
-    // API
-    getCategories = async (req, res) => {
-        const data = await categoryService.find({});
-
-        if (data.code === -1) {
-            return res.status(500).json(data);
-        }
-
-        return res.status(200).json(data);
     };
 }
 

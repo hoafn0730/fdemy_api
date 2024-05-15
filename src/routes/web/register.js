@@ -5,7 +5,7 @@ const registerController = require('~/controllers/RegisterController');
 router.get('/', registerController.index);
 router.post('/', registerController.store);
 router.get('/:id/edit', registerController.edit);
-router.put('/:id', registerController.update);
+router.put('/:id', registerController.updateWeb);
 router.delete('/:id', registerController.destroy);
 
 module.exports = router;

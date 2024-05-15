@@ -9,10 +9,7 @@ const lessonRouter = require('./lesson');
 const registerRouter = require('./register');
 const invoiceRouter = require('./invoice');
 
-router.get('/', (req, res) => {
-    res.render('pages/dashboard');
-});
-
+router.get('/', (req, res) => res.render('pages/dashboard'));
 router.use('/', authRouter);
 router.use('/users', userRouter);
 router.use('/categories', categoryRouter);
