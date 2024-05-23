@@ -9,7 +9,7 @@ const trackService = require('~/services/trackService');
 const generateSlug = require('~/utils/generateSlug');
 const BaseController = require('./BaseController');
 const registerService = require('~/services/registerService');
-const upload = require('~/middlewares/upload');
+const upload = require('~/middlewares/uploadMiddleware');
 
 class CourseController extends BaseController {
     constructor() {
@@ -165,8 +165,14 @@ class CourseController extends BaseController {
         track.steps = steps.data;
         data.data.track = track;
 
-        // check dk
-        const register = await registerService.find({ findOne: true, where: { courseId: data.data.id, userId: 1 } });
+        let register;
+        if (req?.user?.id) {
+            // check dk
+            register = await registerService.find({
+                findOne: true,
+                where: { courseId: data.data.id, userId: req?.user?.id },
+            });
+        }
 
         if (data.code === -1) {
             return res.status(500).json(data);
@@ -174,7 +180,7 @@ class CourseController extends BaseController {
 
         return res
             .status(200)
-            .json({ data: { course: data.data, isRegistered: register.code === 0 && !!register.data } });
+            .json({ data: { course: data.data, isRegistered: register?.code === 0 && !!register.data } });
     };
 
     // [GET] /courses/registered

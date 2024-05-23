@@ -70,6 +70,8 @@ module.exports = {
                         table: 'Categories',
                         field: 'id',
                     },
+                    onUpdate: 'CASCADE',
+                    onDelete: 'SET NULL',
                 });
             });
     },

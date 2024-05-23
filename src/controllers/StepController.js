@@ -26,7 +26,8 @@ class StepController {
             ],
             raw: false,
         });
-        // todo: Check xem đã có trong process chưa
+
+        // //: Check xem đã có trong process chưa
 
         // lấy nextStep
         const nextStep = await stepService.find({

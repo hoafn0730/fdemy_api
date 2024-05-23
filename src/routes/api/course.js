@@ -1,24 +1,25 @@
 const express = require('express');
 const router = express.Router();
 const courseController = require('~/controllers/CourseController');
-const upload = require('~/middlewares/upload');
+const upload = require('~/middlewares/uploadMiddleware');
+const { authenticateUser, checkUserLogin } = require('~/middlewares/authMiddleware');
 
 // [GET] /courses
 router.get('/', courseController.get);
 
 // [POST] /courses
-router.post('/', upload, courseController.create);
+router.post('/', authenticateUser, upload, courseController.create);
 
 // [PUT] /courses/:id
-router.put('/:id', upload, courseController.update);
+router.put('/:id', authenticateUser, upload, courseController.update);
 
 // [DELETE] /courses/:id
-router.delete('/:id', courseController.delete);
+router.delete('/:id', authenticateUser, courseController.delete);
 
 // [GET] /courses/registered
-router.get('/registered', courseController.getRegisteredCourses);
+router.get('/registered', authenticateUser, courseController.getRegisteredCourses);
 
 // [GET] /courses/:slug
-router.get('/:slug', courseController.getCourseBySlug);
+router.get('/:slug', checkUserLogin, courseController.getCourseBySlug);
 
 module.exports = router;

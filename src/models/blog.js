@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
             title: DataTypes.STRING,
             description: DataTypes.STRING,
             slug: DataTypes.STRING,
+            content: DataTypes.TEXT,
             image: DataTypes.STRING,
             thumbnail: DataTypes.STRING,
             isApproved: DataTypes.BOOLEAN,

@@ -6,7 +6,7 @@ const courseService = require('~/services/courseService');
 const lessonService = require('~/services/lessonService');
 const stepService = require('~/services/stepService');
 const trackService = require('~/services/trackService');
-const upload = require('~/middlewares/upload');
+const upload = require('~/middlewares/uploadMiddleware');
 
 class LessonController extends BaseController {
     constructor() {
