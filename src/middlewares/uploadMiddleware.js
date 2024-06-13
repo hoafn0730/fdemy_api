@@ -1,10 +1,10 @@
 const multer = require('multer');
 const { storage, imageFilter } = require('~/helpers/upload');
 
-let uploadMd = multer({ storage: storage, fileFilter: imageFilter }).single('image');
+let uploadMd = multer({ storage: storage, fileFilter: imageFilter });
 
-const upload = (req, res, next) => {
-    uploadMd(req, res, async (err) => {
+const upload = (field) => (req, res, next) => {
+    uploadMd.single(field)(req, res, async (err) => {
         // req.file contains information of uploaded file
         // req.body contains information of text fields, if there were any
         if (req.fileValidationError) {
@@ -12,9 +12,9 @@ const upload = (req, res, next) => {
         } else if (!req.file) {
             return res.json({ code: 1, message: 'Please select an image to upload' });
         } else if (err instanceof multer.MulterError) {
-            return res.status(500).json(err);
+            return next(err);
         } else if (err) {
-            return res.status(500).json(err);
+            return next(err);
         }
 
         delete req.body.id;

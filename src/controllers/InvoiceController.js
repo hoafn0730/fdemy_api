@@ -94,8 +94,35 @@ class InvoiceController extends BaseController {
             page: page,
             pageSize,
             include: [
-                { model: db.Course, as: 'course', attributes: ['id', 'title'] },
+                { model: db.Course, as: 'course', attributes: ['id', 'title', 'price'] },
                 { model: db.User, as: 'user', attributes: ['id', 'username'] },
+            ],
+            raw: false,
+        });
+
+        if (data.code === -1) {
+            return res.status(500).json(data);
+        }
+
+        return res.status(200).json(data);
+    };
+
+    getById = async (req, res) => {
+        const id = req.params.id;
+
+        const data = await invoiceService.find({
+            findOne: true,
+            where: { id },
+            include: [
+                {
+                    model: db.Course,
+                    as: 'course',
+                },
+                {
+                    model: db.User,
+                    as: 'user',
+                    attributes: { exclude: ['password', 'role', 'type', 'code', 'createdAt', 'updatedAt'] },
+                },
             ],
             raw: false,
         });

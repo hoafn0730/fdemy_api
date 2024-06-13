@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
+
 const courseController = require('~/controllers/CourseController');
 const upload = require('~/middlewares/uploadMiddleware');
 const { authenticateUser, checkUserLogin } = require('~/middlewares/authMiddleware');
@@ -8,10 +8,10 @@ const { authenticateUser, checkUserLogin } = require('~/middlewares/authMiddlewa
 router.get('/', courseController.get);
 
 // [POST] /courses
-router.post('/', authenticateUser, upload, courseController.create);
+router.post('/', authenticateUser, upload('image'), courseController.create);
 
 // [PUT] /courses/:id
-router.put('/:id', authenticateUser, upload, courseController.update);
+router.put('/:id', authenticateUser, upload('image'), courseController.update);
 
 // [DELETE] /courses/:id
 router.delete('/:id', authenticateUser, courseController.delete);

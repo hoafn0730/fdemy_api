@@ -31,6 +31,8 @@ class BaseController {
             return res.status(500).json(data);
         }
 
+        res.io.emit('notification', { message: `Thêm ${this.model} thành công!` });
+
         return res.status(201).json(data);
     };
 
@@ -50,6 +52,8 @@ class BaseController {
             return res.status(500).json(data);
         }
 
+        res.io.emit('notification', { message: `${this.model} updated success!` });
+
         res.json(data);
     };
 
@@ -66,6 +70,8 @@ class BaseController {
         if (data.code === -1) {
             return res.status(500).json(data);
         }
+
+        res.io.emit('notification', { message: `${this.model} deleted success!` });
 
         res.json(data);
     };

@@ -4,11 +4,9 @@ const categoryController = require('~/controllers/CategoryController');
 const upload = require('~/middlewares/uploadMiddleware');
 const { authenticateUser } = require('~/middlewares/authMiddleware');
 
-router.all('*', authenticateUser);
-
 router.get('/', categoryController.get);
-router.post('/', upload, categoryController.create);
-router.put('/:id', upload, categoryController.update);
-router.delete('/:id', categoryController.delete);
+router.post('/', authenticateUser, upload('image'), categoryController.create);
+router.put('/:id', authenticateUser, upload('image'), categoryController.update);
+router.delete('/:id', authenticateUser, categoryController.delete);
 
 module.exports = router;

@@ -155,16 +155,21 @@ class LessonController extends BaseController {
             })
             .catch((err) => console.log(err));
 
+        const steps = await stepService.find({ where: { trackId: track.data.id }, raw: true });
+        const maxPriority =
+            steps.data.length > 0 ? steps.data.map((step) => step.priority).reduce((a, b) => Math.max(a, b)) : 0;
+
         // tạo step
-        await stepService.create({
+        const resStep = await stepService.create({
             uuid: uuidv4(),
             trackId: track.data.id,
             lessonId: data.data.id,
             title: data.data.title,
             content: data.data.content,
+            priority: maxPriority + 1,
         });
 
-        if (data.code === -1) {
+        if (resStep.code === -1 && data.code === -1) {
             return res.status(500).json(data);
         }
 

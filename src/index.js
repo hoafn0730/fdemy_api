@@ -1,5 +1,6 @@
 require('module-alias/register');
 require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
@@ -9,13 +10,25 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const http = require('http');
+const { Server } = require('socket.io');
 // const helmet = require('helmet');
 
 const routes = require('./routes');
 const { sequelize, connect } = require('./config/connection');
 const helpers = require('./helpers/handlebars');
+const socketService = require('./services/socketService');
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: '*',
+        // allowedHeaders: ['my-custom-header'],
+        // credentials: true,
+    },
+});
+
 const port = process.env.PORT || 5000;
 connect();
 
@@ -52,12 +65,14 @@ app.use(
     }),
 );
 app.use(express.json());
+app.use((req, res, next) => {
+    res.io = io;
+    next();
+});
 routes(app);
 
-app.use((err, rep, res, next) => {
-    res.status(500).json({ code: -1, message: 'Something wrong ...', data: { err } });
-});
+io.on('connection', socketService.connection);
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Backend CodeLearn listening on http://localhost:${port}`);
 });

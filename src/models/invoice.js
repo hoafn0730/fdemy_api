@@ -17,8 +17,13 @@ module.exports = (sequelize, DataTypes) => {
         {
             userId: DataTypes.INTEGER,
             courseId: DataTypes.INTEGER,
+            nameOnCard: DataTypes.STRING,
+            cardNumber: DataTypes.STRING,
+            expiryDate: DataTypes.DATE,
+            cvv: DataTypes.STRING,
+            couponCode: DataTypes.STRING,
             total: DataTypes.INTEGER,
-            status: DataTypes.STRING,
+            status: { type: DataTypes.STRING, defaultValue: 'pending' },
         },
         {
             sequelize,
