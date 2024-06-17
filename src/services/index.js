@@ -101,6 +101,7 @@ const methodsService = (Model) => {
                     };
                 }
             } catch (error) {
+                console.log('🚀 ~ create: ~ error:', error);
                 return {
                     code: -1,
                     message: 'Something wrong in the server',
@@ -119,6 +120,8 @@ const methodsService = (Model) => {
                         ...payload,
                     },
                 );
+
+                console.log(_data);
 
                 if (_data[0]) {
                     return {

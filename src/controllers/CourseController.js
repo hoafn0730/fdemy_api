@@ -112,20 +112,16 @@ class CourseController extends BaseController {
 
     // [POST] /courses
     create = async (req, res) => {
-        upload(req, res, async () => {
-            req.body.image = 'http://localhost:5000/images/' + req.file.filename;
-            req.body.id = '';
-            const data = await courseService.create({
-                ...req.body,
-            });
-            trackService.create({ courseId: data.data.id });
-
-            if (data.code === -1) {
-                return res.status(500).json(data);
-            }
-
-            res.json(data);
+        const data = await courseService.create({
+            ...req.body,
         });
+        await trackService.create({ courseId: data.data.id });
+
+        if (data.code === -1) {
+            return res.status(500).json(data);
+        }
+
+        res.json(data);
     };
 
     // [DELETE] /courses/:id

@@ -16,6 +16,7 @@ const commentRouter = require('./comment');
 const courseController = require('~/controllers/CourseController');
 const homeController = require('~/controllers/HomeController');
 const stepController = require('~/controllers/StepController');
+const { authenticateUser } = require('~/middlewares/authMiddleware');
 
 router.use('/auth', authRouter);
 router.use('/banners', bannerRouter);
@@ -33,7 +34,7 @@ router.use('/comments', commentRouter);
 
 router.get('/combined-courses', homeController.getCourses);
 router.get('/search', courseController.search);
-router.get('/user-process', stepController.saveUserProcess);
-router.post('/user-process', stepController.saveUserProcess);
+router.get('/user-process', authenticateUser, stepController.saveUserProcess);
+router.post('/user-process', authenticateUser, stepController.saveUserProcess);
 
 module.exports = router;

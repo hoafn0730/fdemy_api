@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const lessonController = require('~/controllers/LessonController');
-const upload = require('~/middlewares/uploadMiddleware');
+const { uploads } = require('~/middlewares/uploadMiddleware');
 const { authenticateUser } = require('~/middlewares/authMiddleware');
 
 router.all('*', authenticateUser);
@@ -10,10 +10,10 @@ router.all('*', authenticateUser);
 router.get('/', lessonController.get);
 
 // [POST] /lessons
-router.post('/', upload('image'), lessonController.create);
+router.post('/', uploads.fields([{ name: 'image' }, { name: 'video' }]), lessonController.create);
 
 // [PUT] /lessons/:id
-router.put('/:id', upload('image'), lessonController.update);
+router.put('/:id', uploads.fields([{ name: 'image' }, { name: 'video' }]), lessonController.update);
 
 // [DELETE] /lessons/:id
 router.delete('/:id', lessonController.delete);

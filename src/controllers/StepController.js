@@ -42,17 +42,19 @@ class StepController {
         res.json({ data: { step: data, nextStep: nextStep.data.uuid, prevStep: prevStep.data.uuid ?? null } });
     };
 
-    saveUserProcess = async (req, res) => {
+    saveUserProcess = async (req, res, next) => {
         const stepUuid = req.body.stepUuid;
-        const { code, data: step } = await stepService.find({ findOne: true, where: { uuid: stepUuid } });
+        const { data: step } = await stepService.find({ findOne: true, where: { uuid: stepUuid } });
 
         // tao tien trinh
-        const data = await processService.create({
-            trackId: step.trackId,
-            stepId: step.id,
-            userId: 1,
-            dateCompleted: new Date(),
-        });
+        const data = await processService
+            .create({
+                trackId: step.trackId,
+                stepId: step.id,
+                userId: req?.user?.id,
+                dateCompleted: new Date(),
+            })
+            .catch(next);
 
         // cap nhat tien trinh
         const [steps, track, processes] = await Promise.all([
@@ -63,19 +65,22 @@ class StepController {
             }),
             trackService.find({ where: { id: step.trackId } }),
             processService.find({ where: { trackId: step.trackId, userId: 1 } }),
-        ]);
-        const userProcess = (processes.data.length / steps.data.length) * 100;
-        registerService.update({
-            data: {
-                process: userProcess,
-            },
-            where: {
-                courseId: track.data.courseId,
-                userId: 1,
-            },
-        });
+        ]).catch(next);
 
-        if (code === -1) {
+        const userProcess = (processes.data.length / steps.data.length) * 100;
+        registerService
+            .update({
+                data: {
+                    process: userProcess,
+                },
+                where: {
+                    courseId: track.data.courseId,
+                    userId: 1,
+                },
+            })
+            .catch(next);
+
+        if (data.code === -1) {
             res.status(500).json(data.message);
         }
 

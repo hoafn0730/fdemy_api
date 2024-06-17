@@ -141,19 +141,23 @@ class LessonController extends BaseController {
 
     // [POST] /lessons
     create = async (req, res) => {
-        const data = await lessonService.create({
-            ...req.body,
-        });
-
-        const track = await trackService
-            .find({
+        delete req.body.id;
+        const [data, track] = await Promise.all([
+            lessonService.create({
+                ...req.body,
+                image: 'http://localhost:5000/uploads/' + req.files.image[0].filename,
+                video: req.files?.video
+                    ? 'http://localhost:5000/uploads/' + req.files.video[0].filename
+                    : req.body.video,
+            }),
+            trackService.find({
                 findOne: true,
                 where: {
                     courseId: req.body.courseId,
                 },
                 raw: true,
-            })
-            .catch((err) => console.log(err));
+            }),
+        ]).catch((err) => console.log(err));
 
         const steps = await stepService.find({ where: { trackId: track.data.id }, raw: true });
         const maxPriority =

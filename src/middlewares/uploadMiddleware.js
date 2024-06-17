@@ -1,7 +1,10 @@
 const multer = require('multer');
-const { storage, imageFilter } = require('~/helpers/upload');
+const { storage, imageFilter, fileStorage } = require('~/helpers/upload');
 
-let uploadMd = multer({ storage: storage, fileFilter: imageFilter });
+let uploadMd = multer({
+    storage: storage,
+    fileFilter: imageFilter,
+});
 
 const upload = (field) => (req, res, next) => {
     uploadMd.single(field)(req, res, async (err) => {
@@ -10,7 +13,7 @@ const upload = (field) => (req, res, next) => {
         if (req.fileValidationError) {
             return res.json({ code: 1, message: req.fileValidationError });
         } else if (!req.file) {
-            return res.json({ code: 1, message: 'Please select an image to upload' });
+            return res.json({ code: 1, message: 'Please select an file to upload' });
         } else if (err instanceof multer.MulterError) {
             return next(err);
         } else if (err) {
@@ -18,9 +21,17 @@ const upload = (field) => (req, res, next) => {
         }
 
         delete req.body.id;
-        req.body.image = 'http://localhost:5000/images/' + req.file.filename;
+        if (field === 'image') {
+            req.body.image = 'http://localhost:5000/images/' + req.file.filename;
+        } else {
+            req.body.video = 'http://localhost:5000/videos/' + req.file.filename;
+        }
         next();
     });
 };
 
-module.exports = upload;
+const uploads = multer({
+    storage: fileStorage,
+});
+
+module.exports = { upload, uploads };

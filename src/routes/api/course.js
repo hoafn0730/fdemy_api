@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const courseController = require('~/controllers/CourseController');
-const upload = require('~/middlewares/uploadMiddleware');
+const { upload } = require('~/middlewares/uploadMiddleware');
 const { authenticateUser, checkUserLogin } = require('~/middlewares/authMiddleware');
 
 // [GET] /courses
