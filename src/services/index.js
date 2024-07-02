@@ -76,7 +76,7 @@ const methodsService = (Model) => {
                 return {
                     code: -1,
                     message: 'Something wrong in the server',
-                    data: [{ error }],
+                    data: { error },
                 };
             }
         },
@@ -105,7 +105,7 @@ const methodsService = (Model) => {
                 return {
                     code: -1,
                     message: 'Something wrong in the server',
-                    data: [{ error }],
+                    data: { error },
                 };
             }
         },
@@ -140,7 +140,7 @@ const methodsService = (Model) => {
                 return {
                     code: -1,
                     message: 'Something wrong in the server',
-                    data: [{ error }],
+                    data: { error },
                 };
             }
         },
@@ -169,7 +169,7 @@ const methodsService = (Model) => {
                 return {
                     code: -1,
                     message: 'Something wrong in the server',
-                    data: [{ error }],
+                    data: { error },
                 };
             }
         },

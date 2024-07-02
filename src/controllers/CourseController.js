@@ -6,7 +6,6 @@ const categoryService = require('~/services/categoryService');
 const courseService = require('~/services/courseService');
 const stepService = require('~/services/stepService');
 const trackService = require('~/services/trackService');
-const generateSlug = require('~/utils/generateSlug');
 const BaseController = require('./BaseController');
 const registerService = require('~/services/registerService');
 const upload = require('~/middlewares/uploadMiddleware');
@@ -14,82 +13,7 @@ const upload = require('~/middlewares/uploadMiddleware');
 class CourseController extends BaseController {
     constructor() {
         super('course');
-        this.model = 'course';
-        this.route = '/courses';
     }
-
-    // WEB
-    // [GET] /courses
-    index = async (req, res) => {
-        const [{ data: courses }, { data: categories }] = await Promise.all([
-            courseService.find({
-                include: [{ model: db.Category, as: 'category', attributes: ['id', 'title'] }],
-                raw: true,
-            }),
-            categoryService.find({ raw: true }),
-        ]).catch((err) => console.log('err', err));
-
-        res.render('pages/' + this.model + '/show', {
-            courses: courses,
-            categories: categories,
-            route: this.route,
-            message: req.flash('info'),
-            error: req.flash('error'),
-        });
-    };
-    // [POST] /courses
-    store = async (req, res) => {
-        const data = await courseService.create({ ...req.body, slug: generateSlug(req.body.title) });
-        trackService.create({ courseId: data.data.id });
-
-        if (data.data[0]?.error) {
-            req.flash('error', data.message);
-        } else {
-            req.flash('info', 'Create success!');
-        }
-        res.redirect('back');
-    };
-    // [GET] /courses/:id/edit
-    edit = async (req, res) => {
-        const id = req.params.id;
-        const { data } = await courseService.find({ where: { id } });
-        const { data: categories } = await categoryService.find({ raw: true });
-
-        res.render('pages/' + this.model + '/edit', {
-            [this.model]: data,
-            categories: categories,
-            route: this.route,
-            error: req.flash('error'),
-        });
-    };
-    // [PUT] /courses/:id
-    updateWeb = async (req, res) => {
-        const id = req.params.id;
-        const data = await courseService.update({
-            data: { ...req.body, slug: generateSlug(req.body.title) },
-            where: { id },
-        });
-        if (data.data[0]?.error) {
-            req.flash('error', data.message);
-            return res.redirect('back');
-        } else {
-            req.flash('info', 'Update success!');
-        }
-        res.redirect(this.route);
-    };
-    // [DELETE] /courses/:id
-    destroy = async (req, res) => {
-        const id = req.params.id;
-        const data = await courseService.delete({ where: { id } });
-
-        if (data?.code === -1) {
-            req.flash('error', data.message);
-            return res.redirect('back');
-        } else {
-            req.flash('info', 'Delete success!');
-        }
-        res.redirect('back');
-    };
 
     // API
     // [GET] /courses

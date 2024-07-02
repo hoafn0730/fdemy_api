@@ -52,7 +52,7 @@ const handleLogin = async (data) => {
                 email: data.email,
                 type: 'LOCAL',
             },
-            attributes: { exclude: ['role', 'type', 'code', 'createdAt', 'updatedAt'] },
+            attributes: { exclude: ['type', 'code', 'createdAt', 'updatedAt'] },
             raw: true,
         });
 
