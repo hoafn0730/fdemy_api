@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
             videoType: DataTypes.STRING,
             video: DataTypes.STRING,
             isPublished: DataTypes.BOOLEAN,
-            PublishedAt: DataTypes.DATE,
+            publishedAt: DataTypes.DATE,
             position: DataTypes.INTEGER,
         },
         {

@@ -18,6 +18,8 @@ const routes = require('./routes');
 const { sequelize, connect } = require('./config/connection');
 const helpers = require('./helpers/handlebars');
 const socketService = require('./services/socketService');
+const errorHandlingMiddleware = require('./middlewares/errorHandlingMiddleware');
+const { corsOptions } = require('./config/cors');
 
 const app = express();
 const server = http.createServer(app);
@@ -45,14 +47,14 @@ app.set('views', path.join(__dirname, 'views'));
 // app.use(helmet());
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(cors({ origin: ['http://localhost:3000', 'http://localhost:5173'], credentials: true }));
+app.use(cors(corsOptions));
 app.use(
     session({
         secret: 'flashblog',
         saveUninitialized: true,
         resave: true,
         proxy: true, // if you do SSL outside of node.
-        cookie: { expires: 300 * 1000 },
+        cookie: { expires: 300 * 1000, domain: '.fdemy.id.vn' },
         expiration: 300 * 1000, //
     }),
 );
@@ -65,12 +67,12 @@ app.use(
     }),
 );
 app.use(express.json());
+app.use(errorHandlingMiddleware);
 app.use((req, res, next) => {
     res.io = io;
     next();
 });
 routes(app);
-
 io.on('connection', socketService.connection);
 
 server.listen(port, () => {

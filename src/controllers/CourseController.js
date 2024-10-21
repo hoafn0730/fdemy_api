@@ -9,6 +9,7 @@ const trackService = require('~/services/trackService');
 const BaseController = require('./BaseController');
 const registerService = require('~/services/registerService');
 const upload = require('~/middlewares/uploadMiddleware');
+const userService = require('~/services/userService');
 
 class CourseController extends BaseController {
     constructor() {
@@ -85,12 +86,20 @@ class CourseController extends BaseController {
         track.steps = steps.data;
         data.data.track = track;
 
+        const user = await userService.find({
+            findOne: true,
+            where: {
+                uid: req?.user?.id + '',
+            },
+            raw: true,
+        });
+
         let register;
-        if (req?.user?.id) {
+        if (user) {
             // check dk
             register = await registerService.find({
                 findOne: true,
-                where: { courseId: data.data.id, userId: req?.user?.id },
+                where: { courseId: data.data.id, userId: user.data?.id },
             });
         }
 
@@ -136,17 +145,12 @@ class CourseController extends BaseController {
         const type = req.query.type;
         const page = req.query.page;
         let data;
-        const keywords = decodeURIComponent(query)
-            .split(' ')
-            .map((keyword) => `%${keyword}%`);
 
         if (type === 'less') {
             data = await courseService.find({
                 where: {
                     title: {
-                        [Op.or]: keywords.map((keyword) => ({
-                            [Op.like]: keyword,
-                        })),
+                        [Op.iLike]: `%${query}%`,
                     },
                 },
                 limit: 5,
@@ -156,9 +160,7 @@ class CourseController extends BaseController {
                 page: page ?? 1,
                 search: {
                     title: {
-                        [Op.or]: keywords.map((keyword) => ({
-                            [Op.like]: keyword,
-                        })),
+                        [Op.iLike]: `%${query}%`,
                     },
                 },
             });

@@ -37,7 +37,7 @@ module.exports = {
                 isPublished: {
                     type: Sequelize.BOOLEAN,
                 },
-                PublishedAt: {
+                publishedAt: {
                     type: Sequelize.DATE,
                 },
                 position: {

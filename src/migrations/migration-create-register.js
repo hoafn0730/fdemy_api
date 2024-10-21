@@ -35,17 +35,7 @@ module.exports = {
                     type: Sequelize.DATE,
                 },
             })
-            .then(() => {
-                queryInterface.addConstraint('Registers', {
-                    fields: ['userId'],
-                    type: 'foreign key',
-                    name: 'register_user_id_fkey',
-                    references: {
-                        table: 'Users',
-                        field: 'id',
-                    },
-                });
-            })
+
             .then(() => {
                 queryInterface.addConstraint('Registers', {
                     fields: ['courseId'],

@@ -15,7 +15,8 @@ class TrackController {
             raw: false,
             order: [['priority', 'ASC']],
         });
-        const userProcess = await processService.find({ where: { trackId: track.data.id, userId: 1 } });
+
+        const userProcess = await processService.find({ where: { trackId: track.data.id, userId: req.user.id } });
         track.data.steps = steps.data;
 
         res.json({
