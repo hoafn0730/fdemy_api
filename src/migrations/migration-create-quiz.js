@@ -12,7 +12,10 @@ module.exports = {
             lessonId: {
                 type: Sequelize.INTEGER,
             },
-            question: {
+            title: {
+                type: Sequelize.STRING,
+            },
+            content: {
                 type: Sequelize.TEXT,
             },
             createdAt: {

@@ -1,7 +1,7 @@
 const users = {};
 
 const connection = (socket) => {
-    console.log(`User connected ${socket.id}`);
+    // console.log(`User connected ${socket.id}`);
     socket.emit('message', 'Hello ' + socket.id);
 
     socket.on('login', function (data) {
@@ -11,7 +11,7 @@ const connection = (socket) => {
     });
 
     socket.on('disconnect', () => {
-        console.log(`User disconnect id is ${socket.id}`);
+        // console.log(`User disconnect id is ${socket.id}`);
         delete users[socket.id];
     });
 };

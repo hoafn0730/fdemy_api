@@ -16,6 +16,21 @@ module.exports = {
                 courseId: {
                     type: Sequelize.INTEGER,
                 },
+                nameOnCard: {
+                    type: Sequelize.STRING,
+                },
+                cardNumber: {
+                    type: Sequelize.STRING,
+                },
+                expiryDate: {
+                    type: Sequelize.DATE,
+                },
+                cvv: {
+                    type: Sequelize.STRING,
+                },
+                couponCode: {
+                    type: Sequelize.STRING,
+                },
                 total: {
                     type: Sequelize.INTEGER,
                     defaultValue: 0,
@@ -39,17 +54,6 @@ module.exports = {
                     name: 'invoice_course_id_fkey',
                     references: {
                         table: 'Courses',
-                        field: 'id',
-                    },
-                });
-            })
-            .then(() => {
-                queryInterface.addConstraint('Invoices', {
-                    fields: ['userId'],
-                    type: 'foreign key',
-                    name: 'invoice_user_id_fkey',
-                    references: {
-                        table: 'Users',
                         field: 'id',
                     },
                 });

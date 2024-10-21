@@ -1,9 +1,9 @@
 const router = require('express').Router();
 
 const stepController = require('~/controllers/StepController');
-const { authenticateUser } = require('~/middlewares/authMiddleware');
+const { authenticateUser, authenticate } = require('~/middlewares/authMiddleware');
 
-router.all('*', authenticateUser);
+router.all('*', authenticate);
 
 router.get('/:uuid', stepController.getStepByUuid);
 
