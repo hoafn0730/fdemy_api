@@ -121,8 +121,6 @@ const methodsService = (Model) => {
                     },
                 );
 
-                console.log(_data);
-
                 if (_data[0]) {
                     return {
                         code: 0,

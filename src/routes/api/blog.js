@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const blogController = require('~/controllers/BlogController');
-const { authenticateUser } = require('~/middlewares/authMiddleware');
+const { authMiddleware } = require('~/middlewares/authMiddleware');
 
 router.get('/', blogController.get);
 router.get('/:slug', blogController.getBySlug);
-router.post('/', authenticateUser, blogController.create);
+router.post('/', authMiddleware, blogController.create);
 
 module.exports = router;

@@ -86,36 +86,17 @@ class CourseController extends BaseController {
         track.steps = steps.data;
         data.data.track = track;
 
-        const user = await userService.find({
-            findOne: true,
-            where: {
-                uid: req?.user?.id + '',
-            },
-            raw: true,
-        });
-
-        let register;
-        if (user) {
-            // check dk
-            register = await registerService.find({
-                findOne: true,
-                where: { courseId: data.data.id, userId: user.data?.id },
-            });
-        }
-
         if (data.code === -1) {
             return res.status(500).json(data);
         }
 
-        return res
-            .status(200)
-            .json({ data: { course: data.data, isRegistered: register?.code === 0 && !!register.data } });
+        return res.status(200).json({ data: { course: data.data } });
     };
 
     // [GET] /courses/registered
     getRegisteredCourses = async (req, res) => {
         const data = await courseService.find({
-            include: [{ model: db.Register, as: 'register', attributes: [], where: { userId: 1 } }],
+            include: [{ model: db.Register, as: 'register', attributes: [], where: { userId: req.user.id } }],
             attributes: [
                 'id',
                 'title',

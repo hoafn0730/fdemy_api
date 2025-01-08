@@ -1,16 +1,26 @@
+const registerService = require('~/services/registerService');
 const userService = require('~/services/userService');
 
 class AuthController {
     getCurrentUser = async (req, res, next) => {
-        const user = await userService.find({ findOne: true, where: { uid: req.user.id + '' } });
+        const courseIds = (
+            await registerService.find({
+                where: {
+                    userId: req.user.id,
+                },
+            })
+        ).data.map((c) => c.courseId);
+
         return res.status(200).json({
             statusCode: 200,
             message: 'ok',
-            data: { ...req.user, uid: req.user.id, id: user.data.id },
+            data: {
+                ...req.user,
+                courseIds,
+            },
         });
     };
     updateProfile = async (req, res, next) => {
-        console.log(req.file);
         if (req?.file) {
             req.body.avatar = 'http://localhost:5000/images/' + req.file.filename;
         }

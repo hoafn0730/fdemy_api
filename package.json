@@ -1,7 +1,7 @@
 {
     "name": "fdemy_be",
     "version": "1.0.0",
-    "description": "codelearn_be",
+    "description": "fdemy_be",
     "main": "index.js",
     "scripts": {
         "lint": "eslint src --ext js --report-unused-disable-directives --max-warnings 0",
