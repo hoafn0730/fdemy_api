@@ -6,6 +6,16 @@ class UserController extends BaseController {
         super('user');
     }
 
+    getByUsername = async (req, res) => {
+        const data = await userService.find({ findOne: true, where: { username: req.params.username } });
+
+        if (data.code === -1) {
+            return res.status(500).json(data);
+        }
+
+        res.json(data);
+    };
+
     // API
     // [POST] /users
     create = async (req, res) => {
