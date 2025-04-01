@@ -48,16 +48,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(cors(corsOptions));
-app.use(
-    session({
-        secret: 'flashblog',
-        saveUninitialized: true,
-        resave: true,
-        proxy: true, // if you do SSL outside of node.
-        cookie: { expires: 300 * 1000, domain: '.fdemy.id.vn' },
-        expiration: 300 * 1000, //
-    }),
-);
 app.use(flash());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
