@@ -12,6 +12,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const http = require('http');
 const { Server } = require('socket.io');
+const https = require('https');
+const fs = require('fs');
 // const helmet = require('helmet');
 
 const routes = require('./routes');
@@ -23,7 +25,13 @@ const { corsOptions } = require('./config/cors');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
+const options = {
+    key: fs.readFileSync('src/ssl/localhost-key.pem'),
+    cert: fs.readFileSync('src/ssl/localhost.pem'),
+};
+
+const httpsServer = https.createServer(options, app);
+const io = new Server(httpsServer, {
     cors: {
         origin: '*',
         // allowedHeaders: ['my-custom-header'],
@@ -48,6 +56,16 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(cors(corsOptions));
+// app.use(
+//     session({
+//         secret: 'flashblog',
+//         saveUninitialized: true,
+//         resave: true,
+//         proxy: true, // if you do SSL outside of node.
+//         cookie: { expires: 300 * 1000, domain: '.fdemy.id.vn' },
+//         expiration: 300 * 1000, //
+//     }),
+// );
 app.use(flash());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -65,6 +83,6 @@ app.use((req, res, next) => {
 routes(app);
 io.on('connection', socketService.connection);
 
-server.listen(port, () => {
-    console.log(`Backend CodeLearn listening on http://localhost:${port}`);
+httpsServer.listen(port, () => {
+    console.log(`Backend CodeLearn listening on https://localhost:${port}`);
 });
