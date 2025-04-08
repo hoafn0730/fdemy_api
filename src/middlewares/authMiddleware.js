@@ -1,7 +1,9 @@
 const { default: axios } = require('axios');
+const { StatusCodes } = require('http-status-codes');
 const db = require('~/models');
 const { handleRefreshToken } = require('~/services/authService');
 const jwtService = require('~/services/jwtService');
+const ApiError = require('~/utils/ApiError');
 
 const authMiddleware = async (req, res, next) => {
     try {
@@ -16,7 +18,8 @@ const authMiddleware = async (req, res, next) => {
             const resData = await axios.post(process.env.SSO_BACKEND_URL + '/api/v1/auth/verify');
 
             if (resData && resData.data.statusCode === 200) {
-                const { id, active, require2FA, ...userData } = resData.data.data;
+                // active, require2FA,
+                const { id, ...userData } = resData.data.data;
                 const [user] = await db.User.findOrCreate({
                     where: { uid: id + '' },
                     defaults: {
@@ -24,6 +27,8 @@ const authMiddleware = async (req, res, next) => {
                     },
                     raw: true,
                 });
+                console.log(user);
+
                 req.user = user;
 
                 next();

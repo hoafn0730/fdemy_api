@@ -31,7 +31,7 @@ const options = {
 };
 
 const httpsServer = https.createServer(options, app);
-const io = new Server(httpsServer, {
+const io = new Server(server, {
     cors: {
         origin: '*',
         // allowedHeaders: ['my-custom-header'],
@@ -83,6 +83,6 @@ app.use((req, res, next) => {
 routes(app);
 io.on('connection', socketService.connection);
 
-httpsServer.listen(port, () => {
-    console.log(`Backend CodeLearn listening on https://localhost:${port}`);
+server.listen(port, () => {
+    console.log(`Backend CodeLearn listening on http://localhost:${port}`);
 });
