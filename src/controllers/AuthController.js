@@ -2,6 +2,63 @@ const registerService = require('~/services/registerService');
 const userService = require('~/services/userService');
 
 class AuthController {
+    login = (req, res, next) => {
+        const isPopup = req.query.popup === '1';
+
+        passport.authenticate('local', (err, user, info) => {
+            if (err) {
+                return next(err);
+            }
+
+            if (!user) {
+                return res.status(StatusCodes.OK).json({ message: info.message });
+            }
+
+            req.login(user, async (err) => {
+                if (err) {
+                    return next(err);
+                }
+
+                const payload = {
+                    id: req.user.id,
+                    email: req.user.email,
+                    username: req.user.username,
+                };
+
+                const accessToken = JwtProvider.createToken(payload);
+                const refreshToken = uuidv4();
+                await authService.updateUserCode(req.user.type, req.user.email, refreshToken);
+
+                // Đặt Access Token vào cookie
+                res.cookie('accessToken', accessToken, {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'none',
+                    domain: process.env.COOKIE_DOMAIN,
+                    maxAge: ms('14 days'),
+                });
+
+                // Đặt Refresh Token vào cookie
+                res.cookie('refreshToken', refreshToken, {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'none',
+                    domain: process.env.COOKIE_DOMAIN,
+                    maxAge: ms('14 days'),
+                });
+
+                if (isPopup) {
+                    return res.redirect(process.env.BACKEND_SSO + '/reload');
+                } else {
+                    return res.status(StatusCodes.OK).json({
+                        statusCode: StatusCodes.OK,
+                        message: 'login success',
+                        data: { ...user, accessToken, refreshToken },
+                    });
+                }
+            });
+        })(req, res, next);
+    };
     getCurrentUser = async (req, res, next) => {
         const courseIds = (
             await registerService.find({
