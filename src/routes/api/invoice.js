@@ -1,9 +1,9 @@
 const router = require('express').Router();
 
 const invoiceController = require('~/controllers/InvoiceController');
-const { authenticateUser } = require('~/middlewares/authMiddleware');
+const { authMiddleware } = require('~/middlewares/authMiddleware');
 
-router.all('*', authenticateUser);
+router.all('*', authMiddleware);
 
 router.get('/', invoiceController.get);
 router.get('/:id', invoiceController.getById);

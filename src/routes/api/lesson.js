@@ -2,9 +2,9 @@ const router = require('express').Router();
 
 const lessonController = require('~/controllers/LessonController');
 const { uploads } = require('~/middlewares/uploadMiddleware');
-const { authenticateUser } = require('~/middlewares/authMiddleware');
+const { authMiddleware } = require('~/middlewares/authMiddleware');
 
-router.all('*', authenticateUser);
+router.all('*', authMiddleware);
 
 // [GET] /lessons
 router.get('/', lessonController.get);
