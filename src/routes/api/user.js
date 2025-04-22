@@ -5,7 +5,6 @@ const { authMiddleware } = require('~/middlewares/authMiddleware');
 
 router.all('*', authMiddleware);
 
-router.get('/:username', userController.getByUsername);
 // [GET] /users
 router.get('/', userController.get);
 

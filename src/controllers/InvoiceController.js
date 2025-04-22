@@ -18,7 +18,7 @@ class InvoiceController extends BaseController {
             pageSize,
             include: [
                 { model: db.Course, as: 'course', attributes: ['id', 'title', 'price'] },
-                { model: db.User, as: 'user', attributes: ['id', 'username'] },
+                { model: db.User, as: 'user', attributes: ['id', 'username', 'fullName'] },
             ],
             raw: false,
         });
